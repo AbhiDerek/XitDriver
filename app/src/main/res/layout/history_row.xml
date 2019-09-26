@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:elevation="@dimen/padding_5dp">
+
+    <LinearLayout
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="@dimen/padding_15dp"
+                  android:layout_marginBottom="1dp"
+                  android:background="@color/white">
+
+
+        <LinearLayout android:id="@+id/linear"
+                      android:orientation="horizontal"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:weightSum="1">
+
+                     <TextView android:id="@+id/tv_name"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_weight="0.5"
+                               android:text="Anand Sharma"
+                               android:textColor="@color/text_color"
+                               android:textStyle="bold"
+                               android:textSize="@dimen/text_size_14"/>
+
+                    <TextView android:id="@+id/tv_booking_id"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_weight="0.5"
+                              android:gravity="right"
+                              android:text="ZEPT-768345"
+                              android:textStyle="bold"
+                              android:textColor="@color/text_color"
+                              android:textSize="@dimen/text_size_14"/>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/linear2"
+                      android:orientation="horizontal"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:weightSum="1">
+
+                    <TextView android:id="@+id/tv_date"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_weight="0.5"
+                              android:text="2019-03-27 12:40:58"
+                              android:textColor="@color/text_color"
+                              android:textSize="@dimen/text_size_14"/>
+
+                    <TextView android:id="@+id/tv_status"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_weight="0.5"
+                              android:gravity="right"
+                              android:text="IN PROGRESS"
+                              android:textColor="@color/text_color"
+                              android:textStyle="bold"
+                              android:textSize="@dimen/text_size_14"
+                              />
+
+        </LinearLayout>
+
+        <TextView android:id="@+id/tv_pick_loc"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:paddingTop="@dimen/padding_5dp"
+                  android:paddingBottom="@dimen/padding_5dp"
+                  android:layout_weight="0.5"
+                  android:text="9190 Overseas Highway, Tavernier, FL, USA"
+                  android:textColor="@color/text_color"
+                  android:textSize="@dimen/text_size_14"/>
+
+        <TextView android:id="@+id/tv_drop_loc"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:paddingTop="@dimen/padding_5dp"
+                  android:paddingBottom="@dimen/padding_5dp"
+                  android:layout_weight="0.5"
+                  android:text="Granda Hills, CA 91344, USA"
+                  android:textColor="@color/text_color"
+                  android:textSize="@dimen/text_size_14"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

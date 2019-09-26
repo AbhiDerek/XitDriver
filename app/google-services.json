@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "686334747879",
+    "firebase_url": "https://xit-delivery-service.firebaseio.com",
+    "project_id": "xit-delivery-service",
+    "storage_bucket": "xit-delivery-service.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686334747879:android:68515f1840c944fe2cee42",
+        "android_client_info": {
+          "package_name": "com.app.xit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "686334747879-43pp8sjcd3i5ctlo7kkr4ts23konbpha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVfxeapHn8PLmx9NO1FTEAO5oWG5fdwsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "686334747879-43pp8sjcd3i5ctlo7kkr4ts23konbpha.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "686334747879-u126bjifpt54ug8sk4fcdj3ksr2ljlvq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "wserve.Xit"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

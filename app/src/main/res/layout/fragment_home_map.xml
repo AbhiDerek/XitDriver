@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
+
+
+        <LinearLayout android:id="@+id/layout_booking_address"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="@color/bg_address"
+                      android:paddingTop="@dimen/margin_10"
+                      android:paddingBottom="@dimen/margin_10"
+                      android:paddingLeft="@dimen/padding_5dp"
+                      android:visibility="visible"
+                      android:orientation="vertical">
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:paddingRight="@dimen/padding_10dp"
+                      android:paddingLeft="@dimen/padding_10dp"
+                      android:paddingBottom="@dimen/padding_5dp"
+                      android:paddingTop="@dimen/padding_5dp"
+                      android:layout_gravity="center"
+                      android:gravity="center"
+                      android:background="@drawable/rounded_white_btn"
+                      android:textColor="@color/black"
+                      android:textSize="@dimen/text_size_14"
+                      android:text="BOOKING ID : B63985"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:padding="@dimen/padding_5dp"
+                      android:textColor="@color/white"
+                      android:textStyle="bold"
+                      android:textSize="@dimen/text_size_14"
+                      android:text="PICK UP ADDRESS :"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:paddingLeft="@dimen/margin_15"
+                      android:textColor="@color/white"
+                      android:textSize="@dimen/text_size_14"
+                      android:text="Info city 2, sector 34, Hero Honda Chowk, Gurgaon"/>
+
+        </LinearLayout>
+
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="match_parent">
+
+                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                      xmlns:tools="http://schemas.android.com/tools"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:id="@+id/map"
+                      tools:context=".MapsActivity"
+                      android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:padding="@dimen/padding_15dp"
+                          android:layout_gravity="center_horizontal"
+                          android:background="@color/white"
+                          android:textColor="@color/black"
+                          android:textSize="@dimen/text_size_12"
+                          android:layout_marginTop="@dimen/margin_15"
+                          android:text="Waiting For Booking...."/>
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:gravity="right"
+                  android:layout_gravity="bottom|end">
+
+         <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_gravity="bottom|end"
+                app:srcCompat="@android:drawable/ic_dialog_email"/>
+
+         <Button android:id="@+id/btn_status_change"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_margin="@dimen/padding_10dp"
+                 android:text="@string/driver_reached"
+                 android:textSize="@dimen/text_size_18"
+                 android:visibility="gone"
+                 android:background="@color/bg_address"/>
+
+    </LinearLayout>
+
+</FrameLayout>

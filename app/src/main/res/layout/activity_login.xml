@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/login_bg">
+
+    <FrameLayout
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/margin_15"
+                  android:layout_marginRight="@dimen/margin_15"
+                  android:paddingLeft="@dimen/padding_10dp"
+                  android:paddingRight="@dimen/padding_10dp"
+                  android:paddingTop="@dimen/padding_25dp"
+                  android:paddingBottom="@dimen/padding_25dp"
+                  android:background="@color/grey_transparent"
+                  android:orientation="vertical">
+
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/icon_splash"
+                   android:layout_gravity="center_horizontal"
+                   android:layout_margin="@dimen/margin_15"
+                   android:id="@+id/imageView"/>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_15"
+                android:id="@+id/textInputLayoutEmail"
+                android:hint="Email"
+                android:lines="1"
+                android:textColorHint="@color/black"
+                android:textColor="@color/black"
+                android:background="@android:drawable/edit_text"/>
+
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textInputLayoutPassword"
+                android:hint="Password"
+                android:lines="1"
+                android:inputType="textPassword"
+                android:textColorHint="@color/black"
+                android:textColor="@color/black"
+                android:background="@android:drawable/edit_text"/>
+
+
+        <RelativeLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="@dimen/padding_25dp"
+                      android:orientation="horizontal">
+
+            <Button android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login"
+                    style="@style/button"
+                    android:layout_marginEnd="8dp"
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/buttonLogin"
+                    android:onClick="login"/>
+
+
+            <Button android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/forgot_password"
+                    android:textColor="@color/black"
+                    android:background="@color/white"
+                    android:paddingTop="@dimen/padding_5dp"
+                    android:paddingBottom="@dimen/padding_5dp"
+                    android:paddingRight="@dimen/padding_10dp"
+                    android:paddingLeft="@dimen/padding_10dp"
+                    android:layout_alignParentRight="true"
+                    style="@style/button"
+                    android:id="@+id/buttonFotgetPwd"/>
+
+        </RelativeLayout>
+
+    <Button android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/button"
+            android:text="@string/new_to_xit_sign_up"
+            android:layout_marginRight="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="@dimen/padding_25dp"
+            android:id="@+id/buttonSignup"/>
+
+    </LinearLayout>
+
+        <ProgressBar android:id="@+id/progressBar"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:visibility="gone"
+                     android:layout_gravity="center"/>
+
+
+    </FrameLayout>
+
+</RelativeLayout>

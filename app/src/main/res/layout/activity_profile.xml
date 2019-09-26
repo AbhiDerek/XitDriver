@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+
+
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+
+                  <TextView android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/margin_10"
+                            android:background="@color/colorAccent"
+                            android:textColor="@color/white"
+                            android:text="Driver Profile"
+                            android:textStyle="bold"
+                            android:gravity="center_vertical"
+                            android:drawableRight="@android:drawable/ic_menu_edit"
+                            android:id="@+id/tv_driver_profile"/>
+
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal"
+                                  android:layout_margin="@dimen/padding_5dp"
+                                  android:weightSum="1">
+
+                        <TextView android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:text="Full Name"
+                                  android:textColor="@color/colorPrimary"
+                                  android:textStyle="bold"
+                                  android:layout_weight="0.7"/>
+
+                        <EditText android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:layout_weight="0.3"
+                                  android:textColor="@color/text_color"
+                                  android:background="@android:drawable/edit_text"
+                                  android:id="@+id/etFullName"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal"
+                                  android:layout_margin="@dimen/padding_5dp"
+                                  android:weightSum="1">
+
+                        <TextView android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:text="Full Address"
+                                  android:textColor="@color/colorPrimary"
+                                  android:textStyle="bold"
+                                  android:layout_weight="0.7"/>
+
+                        <EditText android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:layout_weight="0.3"
+                                  android:textColor="@color/text_color"
+                                  android:background="@android:drawable/edit_text"
+                                  android:id="@+id/etFullAddress"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal"
+                                  android:layout_margin="@dimen/padding_5dp"
+                                  android:weightSum="1">
+
+                        <TextView android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:text="Phone"
+                                  android:textColor="@color/colorPrimary"
+                                  android:textStyle="bold"
+                                  android:layout_weight="0.7"/>
+
+                        <EditText android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:layout_weight="0.3"
+                                  android:textColor="@color/text_color"
+                                  android:background="@android:drawable/edit_text"
+                                  android:id="@+id/etPhone"/>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal"
+                                  android:layout_margin="@dimen/padding_5dp"
+                                  android:weightSum="1">
+
+                        <TextView android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:text="Email"
+                                  android:textColor="@color/colorPrimary"
+                                  android:textStyle="bold"
+                                  android:layout_weight="0.7"/>
+
+                        <EditText android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:layout_weight="0.3"
+                                  android:textColor="@color/text_color"
+                                  android:background="@android:drawable/edit_text"
+                                  android:id="@+id/etEmail"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal"
+                                  android:layout_margin="@dimen/padding_5dp"
+                                  android:weightSum="1">
+
+                        <TextView android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:text="Driving License"
+                                  android:textColor="@color/colorPrimary"
+                                  android:textStyle="bold"
+                                  android:layout_weight="0.7"/>
+
+                        <ImageView
+                                  android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:layout_weight="0.3"
+                                  android:scaleType="center"
+                                  android:id="@+id/imgDrivingLic"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:orientation="horizontal"
+                                  android:layout_margin="@dimen/padding_5dp"
+                                  android:weightSum="1">
+
+                        <TextView android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:text="Social Security Card"
+                                  android:textColor="@color/colorPrimary"
+                                  android:textStyle="bold"
+                                  android:layout_weight="0.7"/>
+
+                        <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.3"
+                                android:scaleType="center"
+                                android:id="@+id/imgSocialSecurityCard"/>
+
+                    </LinearLayout>
+
+
+        <TextView android:id="@+id/tv_vehicle_information"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="@dimen/margin_10"
+                  android:background="@color/colorAccent"
+                  android:textColor="@color/white"
+                  android:text="Vehicle Information"
+                  android:textStyle="bold"
+                  android:gravity="center_vertical"
+                  android:layout_marginTop="@dimen/margin_15"
+                  android:drawableRight="@android:drawable/ic_menu_edit"/>
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:layout_margin="@dimen/padding_5dp"
+                              android:weightSum="1">
+
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:text="Vehicle Mark"
+                              android:textColor="@color/colorPrimary"
+                              android:textStyle="bold"
+                              android:layout_weight="0.7"/>
+
+                    <EditText android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_weight="0.3"
+                              android:textColor="@color/text_color"
+                              android:background="@android:drawable/edit_text"
+                              android:id="@+id/etvehicleMark"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:layout_margin="@dimen/padding_5dp"
+                              android:weightSum="1">
+
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:text="Vehicle Model"
+                              android:textColor="@color/colorPrimary"
+                              android:textStyle="bold"
+                              android:layout_weight="0.7"/>
+
+                    <EditText android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_weight="0.3"
+                              android:textColor="@color/text_color"
+                              android:background="@android:drawable/edit_text"
+                              android:id="@+id/etVehileModel"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:layout_margin="@dimen/padding_5dp"
+                              android:weightSum="1">
+
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:text="Vehicle Registration"
+                              android:textColor="@color/colorPrimary"
+                              android:textStyle="bold"
+                              android:layout_weight="0.7"/>
+
+                    <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:scaleType="center"
+                            android:id="@+id/imgVehicleRegister"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:layout_margin="@dimen/padding_5dp"
+                              android:weightSum="1">
+
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:text="Vehicle License Plate"
+                              android:textColor="@color/colorPrimary"
+                              android:textStyle="bold"
+                              android:layout_weight="0.7"/>
+
+                    <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:scaleType="center"
+                            android:id="@+id/imgVehicleLicensePlate"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:layout_margin="@dimen/padding_5dp"
+                              android:weightSum="1">
+
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:text="Vehicle Insurance Card"
+                              android:textColor="@color/colorPrimary"
+                              android:textStyle="bold"
+                              android:layout_weight="0.7"/>
+
+                    <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:scaleType="center"
+                            android:id="@+id/imgVehicleInsuranceCard"/>
+
+                </LinearLayout>
+
+
+        <Button android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_15"
+                android:text="SUBMIT"
+                style="@style/button"
+                android:layout_gravity="end"
+                android:visibility="gone"
+                android:id="@+id/btnNext"/>
+
+    </LinearLayout>
+
+        <ProgressBar android:id="@+id/progressBar"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+</ScrollView>

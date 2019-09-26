@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.app.xit.home.HomeActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:titleTextColor="@color/white"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!--<include layout="@layout/content_home"/>-->
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="?actionBarSize">
+
+
+        <FrameLayout
+                     android:id="@+id/container"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:layout_above="@+id/layoutRequest">
+
+        </FrameLayout>
+
+        <FrameLayout android:id="@+id/layoutRequest"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="bottom"
+                     android:layout_alignParentBottom="true"
+                     android:padding="@dimen/padding_5dp"
+                     android:background="@color/white"
+                     android:visibility="gone">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                <Button android:id="@+id/btnAccept"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:layout_margin="2dp"
+                        android:text="ACCEPT"
+                        android:textColor="@color/white"
+                        android:background="@color/request_accept"/>
+
+                <Button android:id="@+id/btnReject"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:layout_margin="2dp"
+                        android:text="REJECT"
+                        android:textColor="@color/white"
+                        android:background="@color/request_reject"/>
+
+            </LinearLayout>
+
+            <ProgressBar android:id="@+id/progressBar"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:visibility="gone"
+                         android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

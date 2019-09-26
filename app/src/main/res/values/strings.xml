@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Xit</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="login">Login</string>
+    <string name="new_to_xit_sign_up">new to Xit ? Sign up</string>
+    <string name="title_activity_home">Home</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Driver Name</string>
+    <string name="nav_header_subtitle">driver.email@xit.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_history">Booking History</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_contact">Contact Admin</string>
+    <string name="menu_logout">Logout</string>
+    <string name="fetch_loc">Driver Location Update</string>
+    <string name="ticker_text">Ticker Text</string>
+    <string name="msg_token_fmt">Fcm_token: %s</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="fcm_message">FCM Message</string>
+    <string name="driver_reached">DRIVER REACHED</string>
+
+</resources>
