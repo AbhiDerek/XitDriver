@@ -81,6 +81,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         layout_booking_address = view.findViewById(R.id.layout_booking_address)
         btn_status_change = view.btn_status_change
+        btn_status_change.setOnClickListener {
+            driverBookingStatusChange()
+        }
 
         fab = view.findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { view ->
@@ -241,6 +244,26 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         })
     }
 
+    private fun driverBookingStatusChange(){
+        val bookingStatus = AppPrefs.getBookingStatus()
+        when(bookingStatus){
+            "Journey_Started" -> {
+
+            }
+            "Driver_Reached" -> {
+
+            }
+            "Journey_Begin" -> {
+
+            }
+            "Journey_Complete" -> {
+
+            }
+            "Booking_Complete" -> {
+
+            }
+        }
+    }
 
     private fun decodePoly(encoded: String): List<LatLng> {
         val poly = ArrayList<LatLng>()
