@@ -21,6 +21,10 @@ object AppConstants{
     val driverRegisteration = baseUrl+"individual_registration.php"
     val driverLogin = baseUrl+"driver_login.php"
 
-
+    val homePage = "Home Page"
+    val profilePage = "Profile Page"
+    val vehicleInformationPage = "Vehicle Information"
+    val bookingHistoryPage = "Booking History"
+    val bookingInformationPage = "Booking Information"
 }
 

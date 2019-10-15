@@ -39,7 +39,7 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.app_bar_home.*
 import org.json.JSONObject
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LocationUpdate {
+class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LocationUpdate, PageNavigation {
 
     companion object{
         val BROADCAST_ACTION = "com.app.xit.location"
@@ -47,7 +47,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val MY_PERMISSIONS_REQUEST_LOCATION : Int = 2109
-    private val PERMISSIONS_SERVICE_LOCATION : Int = 2109
+    private val PERMISSIONS_SERVICE_LOCATION : Int = 2119
 
     var location: Location? = Location("Xit")
     lateinit var currentFragment: String
@@ -81,7 +81,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             getLocationUpdate()
-
 
             val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
             val navView: NavigationView = findViewById(R.id.nav_view)
@@ -208,6 +207,30 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    override fun onPageChange(pageName: String) {
+        when(pageName){
+            AppConstants.homePage ->{
+                replaceFragment(HomeFragment())
+                supportActionBar?.setTitle("Home")
+            }
+            AppConstants.profilePage ->{
+                supportActionBar?.setTitle("Profile")
+                replaceFragment(ProfileFragment())
+            }
+            AppConstants.vehicleInformationPage -> {
+                supportActionBar?.setTitle("Profile")
+                replaceFragment(ProfileFragment())
+            }
+            AppConstants.bookingHistoryPage -> {
+                supportActionBar?.setTitle("History")
+                replaceFragment(HistoryFragment())
+            }
+            AppConstants.bookingInformationPage -> {
+
+            }
+        }
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
@@ -215,16 +238,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 replaceFragment(HomeFragment())
                 supportActionBar?.setTitle("Home")
             }
-            R.id.nav_profile -> {
-                supportActionBar?.setTitle("Profile")
-                replaceFragment(ProfileFragment())
-            }
-            R.id.nav_history -> {
-                supportActionBar?.setTitle("History")
-                replaceFragment(HistoryFragment())
-            }
-            R.id.nav_contact -> {
-
+            R.id.nav_dashboard -> {
+                supportActionBar?.setTitle("Dashboard")
+                replaceFragment(Dashboard())
             }
             R.id.nav_logout -> {
                 showConfirmationDialog()
@@ -263,6 +279,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         dialog.show()
     }
 
+    fun changeScreen(){}
+
     fun setLogout(){
         AppPrefs.setDriverId("")
         AppPrefs.setLogin(false)
@@ -274,6 +292,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 
         if(findFragment != null) {
+//            supportFragmentManager.popBackStackImmediate(fragment.javaClass.name, 0)
             findFragment.arguments = fragment.arguments
             transaction.replace(R.id.container, findFragment)
             transaction.commit()
@@ -366,7 +385,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun success(data: String) {
                 super.success(data)
                 progressBar.visibility = View.GONE
-                Handler().postDelayed(runnable, 5 * 1000)
+                Handler().postDelayed(runnable, 1 * 1000)
 
                 val homeFragment = HomeFragment()
                 val bundle = Bundle().apply {

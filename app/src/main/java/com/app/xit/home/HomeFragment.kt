@@ -66,6 +66,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     var pickAddress: String? = null
     var routeUrl: String? = null
 
+    companion object{
+        val JOURNEY_STARTED = "Journey_Started"
+        val DRIVER_REACHED = "Driver_Reached"
+        val JOURNEY_COMPLETE = "Journey_Complete"
+        val BOOKING_COMPLETE = "Booking_Complete"
+    }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         locationUpdate = requireContext() as LocationUpdate
@@ -121,6 +128,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             layout_booking_address.visibility = View.VISIBLE
             btn_status_change.visibility = View.VISIBLE
         }
+        
+        AppPrefs.setBookingStatus(JOURNEY_STARTED)
     }
 
     override fun onResume() {
@@ -244,20 +253,21 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         })
     }
 
+    private fun changeBookingStatus(){
+
+    }
+
     private fun driverBookingStatusChange(){
         val bookingStatus = AppPrefs.getBookingStatus()
         when(bookingStatus){
             "Journey_Started" -> {
-
+                AppPrefs.setBookingStatus(JOURNEY_COMPLETE)
             }
             "Driver_Reached" -> {
-
-            }
-            "Journey_Begin" -> {
-
+                AppPrefs.setBookingStatus(JOURNEY_STARTED)
             }
             "Journey_Complete" -> {
-
+                AppPrefs.setBookingStatus(JOURNEY_COMPLETE)
             }
             "Booking_Complete" -> {
 

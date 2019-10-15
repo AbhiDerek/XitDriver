@@ -8,7 +8,7 @@ import com.app.xit.location.BookingSingleton
 
 class HomeActivityViewModel: ViewModel() {
 
-      /*
+
        var locData: MutableLiveData<BookingData> = MutableLiveData<BookingData>()
         //        var locData2: MutableLiveData<BookingData> by lazy { MutableLiveData<BookingData>() }
 
@@ -21,10 +21,6 @@ class HomeActivityViewModel: ViewModel() {
         fun getBookingSingleton():LiveData<BookingSingleton>{
             return bookingSingleton
         }
-
-        */
-
-
 
 
 }

@@ -24,5 +24,6 @@
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="fcm_message">FCM Message</string>
     <string name="driver_reached">DRIVER REACHED</string>
+    <string name="dashboard">Dashboard</string>
 
 </resources>

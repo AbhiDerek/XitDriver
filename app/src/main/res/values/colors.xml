@@ -14,4 +14,6 @@
     <color name="request_accept">#44A848</color>
     <color name="request_reject">#C01B1B</color>
     <color name="route_color">#0D4210</color>
+    <color name="txt_color">#FF5722</color>
+    <color name="yellow">#FFEB3B</color>
 </resources>
