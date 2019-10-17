@@ -9,10 +9,14 @@ import android.location.Location
 import android.os.Build
 import android.os.IBinder
 import android.os.Looper
+import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.app.xit.home.HomeActivity
+import com.app.xit.utill.AppConstants
+import com.app.xit.utill.HitApi
 import com.google.android.gms.location.*
+import org.json.JSONObject
 
 class GetCurrentLocationService(): Service(){
 
@@ -43,6 +47,8 @@ class GetCurrentLocationService(): Service(){
                     AppPrefs.setCurrentLatitude(location?.latitude as Double)
                     AppPrefs.setCurrentLongitude(location?.longitude as Double)
 
+                    changeBookingStatus()
+
                 }
             }
         }
@@ -55,6 +61,29 @@ class GetCurrentLocationService(): Service(){
 //                Log.i(TAG, "Last Location ${location?.latitude}, ${location?.longitude}")
             }
 
+    }
+
+    private fun changeBookingStatus(){
+        if(TextUtils.isEmpty(AppPrefs.getDriverId())){
+            return
+        }
+        var map = JSONObject()
+        map.put("driver_id", AppPrefs.getDriverId())
+        map.put("latlong", AppPrefs.getCurrentLatitude() +","+ AppPrefs.getCurrentLongitude())
+
+        HitApi.hitPostJsonRequest(this, AppConstants.driverLocationUpdate, map, object :
+            ServerResponse {
+
+            override fun success(t: String) {
+                super.success(t)
+
+            }
+
+            override fun error(e: Exception) {
+                super.error(e)
+            }
+
+        })
     }
 
     fun createLocationRequest(): LocationRequest? {

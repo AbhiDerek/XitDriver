@@ -37,6 +37,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.app_bar_home.*
+import kotlinx.android.synthetic.main.nav_header_home.*
 import org.json.JSONObject
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LocationUpdate, PageNavigation {
@@ -78,6 +79,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             val toolbar: Toolbar = findViewById(R.id.toolbar)
             setSupportActionBar(toolbar)
+
+            driver_email?.text = AppPrefs.getDriverEmail()
 
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             getLocationUpdate()
@@ -122,7 +125,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-
         isBooking = intent?.getBooleanExtra("is_passenger_request", false)
         if(isBooking as Boolean) {
             layoutRequest.visibility = View.VISIBLE
@@ -193,7 +195,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.home, menu)
+//        menuInflater.inflate(R.menu.home, menu)
         return true
     }
 
@@ -202,7 +204,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -215,11 +219,19 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             AppConstants.profilePage ->{
                 supportActionBar?.setTitle("Profile")
-                replaceFragment(ProfileFragment())
+                var fragment = ProfileFragment()
+                var bundle = Bundle()
+                bundle.putBoolean("IS_PROFILE", true)
+                fragment.arguments = bundle
+                replaceFragment(fragment)
             }
             AppConstants.vehicleInformationPage -> {
-                supportActionBar?.setTitle("Profile")
-                replaceFragment(ProfileFragment())
+                supportActionBar?.setTitle("Vehicle Information")
+                var fragment = ProfileFragment()
+                var bundle = Bundle()
+                bundle.putBoolean("IS_PROFILE", false)
+                fragment.arguments = bundle
+                replaceFragment(fragment)
             }
             AppConstants.bookingHistoryPage -> {
                 supportActionBar?.setTitle("History")
@@ -415,7 +427,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 super.error(e)
                 progressBar.visibility = View.GONE
                 Log.e(ProfileFragment.TAG, "ERROR: $e")
-                Handler().postDelayed(runnable, 2 * 1000)
+                Handler().postDelayed(runnable, 1 * 1000)
             }
 
         })

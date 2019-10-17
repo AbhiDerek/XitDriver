@@ -8,21 +8,26 @@
     <FrameLayout android:layout_width="match_parent"
                  android:layout_height="match_parent">
 
-
-
     <LinearLayout android:orientation="vertical"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent">
 
+        <LinearLayout
+                android:id="@+id/linear_Personal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
                   <TextView android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/margin_10"
-                            android:background="@color/colorAccent"
-                            android:textColor="@color/white"
-                            android:text="Driver Profile"
-                            android:textStyle="bold"
-                            android:gravity="center_vertical"
-                            android:drawableRight="@android:drawable/ic_menu_edit"
+                            android:background="@color/white"
+                            android:textColor="@color/colorPrimary"
+                            android:text="Update Driver Profile"
+                            android:layout_gravity="right"
+                            android:gravity="center_vertical|right"
+                            android:drawablePadding="@dimen/padding_5dp"
+                            android:drawableRight="@drawable/ic_edit"
                             android:id="@+id/tv_driver_profile"/>
 
                     <LinearLayout android:layout_width="match_parent"
@@ -159,18 +164,25 @@
 
                     </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/linear_Vehicle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
         <TextView android:id="@+id/tv_vehicle_information"
-                  android:layout_width="match_parent"
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:padding="@dimen/margin_10"
-                  android:background="@color/colorAccent"
-                  android:textColor="@color/white"
-                  android:text="Vehicle Information"
-                  android:textStyle="bold"
-                  android:gravity="center_vertical"
-                  android:layout_marginTop="@dimen/margin_15"
-                  android:drawableRight="@android:drawable/ic_menu_edit"/>
+                  android:background="@color/white"
+                  android:textColor="@color/colorPrimary"
+                  android:text="Update Vehicle Information"
+                  android:layout_gravity="right"
+                  android:gravity="center_vertical|right"
+                  android:drawablePadding="@dimen/padding_5dp"
+                  android:drawableRight="@drawable/ic_edit"/>
 
                 <LinearLayout android:layout_width="match_parent"
                               android:layout_height="wrap_content"
@@ -282,6 +294,7 @@
 
                 </LinearLayout>
 
+        </LinearLayout>
 
         <Button android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -297,6 +310,7 @@
         <ProgressBar android:id="@+id/progressBar"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
+                     android:visibility="gone"
                      android:layout_gravity="center"/>
 
     </FrameLayout>

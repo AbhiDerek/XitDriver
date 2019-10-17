@@ -255,6 +255,23 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private fun changeBookingStatus(){
 
+        var map = JSONObject()
+        map.put("driver_id", AppPrefs.getDriverId())
+        map.put("latlong", AppPrefs.getCurrentLatitude() +","+ AppPrefs.getCurrentLongitude())
+
+        HitApi.hitPostJsonRequest(requireContext(), AppConstants.driverLocationUpdate, map, object :
+            ServerResponse {
+
+            override fun success(t: String) {
+                super.success(t)
+                Log.i(TAG, "SUCCESS : ${t.toString()}")
+            }
+
+            override fun error(e: Exception) {
+                super.error(e)
+            }
+
+        })
     }
 
     private fun driverBookingStatusChange(){
@@ -273,6 +290,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
             }
         }
+        changeBookingStatus()
     }
 
     private fun decodePoly(encoded: String): List<LatLng> {

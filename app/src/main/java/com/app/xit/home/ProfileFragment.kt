@@ -59,6 +59,8 @@ class ProfileFragment : Fragment(){
     lateinit var imgVehicleRegister: ImageView
     lateinit var imgVehicleLicensePlate: ImageView
     lateinit var imgVehicleInsuranceCard: ImageView
+    lateinit var linearVehicle: LinearLayout
+    lateinit var linearPersonal: LinearLayout
 
     lateinit var progressBar: ProgressBar
 
@@ -108,6 +110,17 @@ class ProfileFragment : Fragment(){
         imgVehicleRegister = view.findViewById(R.id.imgVehicleRegister)
         imgVehicleLicensePlate = view.findViewById(R.id.imgVehicleLicensePlate)
         imgVehicleInsuranceCard = view.findViewById(R.id.imgVehicleInsuranceCard)
+        linearVehicle = view.findViewById(R.id.linear_Vehicle)
+        linearPersonal = view.findViewById(R.id.linear_Personal)
+
+        if(arguments?.getBoolean("IS_PROFILE")!!){
+            linearPersonal.visibility = View.VISIBLE
+            linearVehicle.visibility = View.GONE
+        }else{
+            linearPersonal.visibility = View.GONE
+            linearVehicle.visibility = View.VISIBLE
+        }
+
         progressBar = view.findViewById(R.id.progressBar)
 
         btnNext = view.findViewById(R.id.btnNext)
@@ -245,7 +258,7 @@ class ProfileFragment : Fragment(){
 //        var map= mutableMapOf<String, String>()
         var map = JSONObject()
         map.put("driver_id", AppPrefs.getDriverId())
-
+        progressBar.visibility = View.VISIBLE
         HitApi.hitPostJsonRequest(requireContext(), AppConstants.driverProfile, map, object : ServerResponse {
             override fun success(data: String) {
                 super.success(data)

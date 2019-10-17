@@ -17,7 +17,7 @@
                       android:paddingTop="@dimen/margin_10"
                       android:paddingBottom="@dimen/margin_10"
                       android:paddingLeft="@dimen/padding_5dp"
-                      android:visibility="visible"
+                      android:visibility="gone"
                       android:orientation="vertical">
 
             <TextView android:layout_width="wrap_content"

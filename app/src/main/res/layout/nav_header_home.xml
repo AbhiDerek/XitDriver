@@ -34,6 +34,6 @@
             android:layout_height="wrap_content"
             android:text="@string/nav_header_subtitle"
             android:textColor="@color/white"
-            android:id="@+id/textView"/>
+            android:id="@+id/driver_email"/>
 
 </LinearLayout>

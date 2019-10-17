@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import com.app.xit.AppPrefs
 import com.app.xit.BaseActivity
@@ -33,11 +34,13 @@ class LoginActivity : BaseActivity(){
 
 
     public fun login(view: View){
+        var email = textInputLayoutEmail.text.toString()
 //        if(validateEmail() && validatePassword()){
 //            var map= mutableMapOf<String, String>()
+        email = "siraj@wserve.com"
         progressBar.visibility = View.VISIBLE
            var map = JSONObject()
-            map.put("email", "siraj@wserve.com")
+            map.put("email", email)
             map.put("password", "test123")
             if(!TextUtils.isEmpty(AppPrefs.getFcmToken())) {
                 map.put("access_token", AppPrefs.getFcmToken())
@@ -53,6 +56,7 @@ class LoginActivity : BaseActivity(){
                     AppConstants.driverLoginModel = LoginModel(json.optString("driver_id"), json.optString("name"), json.optString("business_id"))
                     AppPrefs.setLogin(true)
                     AppPrefs.setDriverId(json.optString("driver_id"))
+                    AppPrefs.setDriverEmail(email)
                     setResult(Activity.RESULT_OK)
                     finish()
                 }
@@ -67,12 +71,10 @@ class LoginActivity : BaseActivity(){
 //        }
     }
 
-    private fun validateEmail(): Boolean{
-        val email = textInputLayoutEmail.text.toString()
-        if(TextUtils.isEmpty(email) || !email.contains("@")){
+    private fun validateEmail(email: String): Boolean{
+        if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             return false
         }
-
         return true
     }
 
