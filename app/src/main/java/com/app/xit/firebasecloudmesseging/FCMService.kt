@@ -68,6 +68,7 @@ class FCMService: FirebaseMessagingService(){
             putExtra("pick_address", passengerAddress)
 
             putExtra("drop_address", drAddress)
+            putExtra("drop_address", "Veer Savarkar Block, Block S 2, Upadhyay Block, Shakarpur Khas, Delhi, 110092")
             putExtra("pay_mode", paymentMode)
 
             putExtra("is_passenger_request", true)

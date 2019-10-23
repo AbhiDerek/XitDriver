@@ -12,10 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.ProgressBar
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.app.xit.AppPrefs
@@ -39,6 +36,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_home_map.view.*
 import org.json.JSONObject
+import org.w3c.dom.Text
 
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
@@ -53,12 +51,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     lateinit var googleMap: GoogleMap
     lateinit var marker: Marker
     lateinit var fab: FloatingActionButton
+    lateinit var tvWaiting: TextView
+    lateinit var tvAddressHeader: TextView
+    lateinit var tvAddress: TextView
     lateinit var layout_booking_address: LinearLayout
     lateinit var btn_status_change: Button
 
     private val MY_PERMISSIONS_REQUEST_LOCATION : Int = 2109
-    var zoomLevel: Float = 11.0f
-    var bookinId: String? = null
+    var zoomLevel: Float = 14.0f
+    var bookingId: String? = null
     var pickLat: String? = null
     var pickLong: String? = null
     var pickAddress: String? = null
@@ -89,6 +90,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         val view = inflater.inflate(R.layout.fragment_home_map, null)
 
         layout_booking_address = view.findViewById(R.id.layout_booking_address)
+        tvAddressHeader = view.findViewById(R.id.tv_address_header)
+        tvAddress = view.findViewById(R.id.tv_address)
+        tvWaiting = view.findViewById(R.id.tv_waiting)
         btn_status_change = view.btn_status_change
         btn_status_change.setOnClickListener {
             driverBookingStatusChange()
@@ -119,8 +123,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     public fun setFragmentArgument(args: Bundle?){
-        bookinId = args?.getString("booking_id")
         var bookingStatus = args?.getInt("booking_status", 0)
+        bookingId = AppPrefs.getBookingId()
         pickLong = AppPrefs.getPickupLongitude()
         pickLat = AppPrefs.getPickupLatitude()
         pickAddress = AppPrefs.getPickupAddress()
@@ -129,11 +133,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         dropLong = AppPrefs.getDropLongitude()
         dropAddress = AppPrefs.getDropAddress()
 
+        tvAddressHeader.text = "PICK UP ADDRESS:"
+        tvAddress.text = pickAddress
 
-        if(!TextUtils.isEmpty(bookinId) && !TextUtils.isEmpty(pickLat) && !TextUtils.isEmpty(pickLong) && !TextUtils.isEmpty(pickAddress)){
+        if(!TextUtils.isEmpty(bookingId) && !TextUtils.isEmpty(pickLat) && !TextUtils.isEmpty(pickLong) && !TextUtils.isEmpty(pickAddress)){
             layout_booking_address.visibility = View.VISIBLE
             btn_status_change.visibility = View.VISIBLE
-            AppPrefs.setBookingStatus(JOURNEY_STARTED)
+            tvWaiting.visibility = View.GONE
+            AppPrefs.setBookingStatus(DRIVER_REACHED)
 
             routeUrl = getURL(
                 LatLng(AppPrefs.getCurrentLatitude().toDouble(), AppPrefs.getCurrentLongitude().toDouble()),
@@ -141,6 +148,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             Log.i(TAG, "Route Url : $routeUrl")
             getRoute(routeUrl)
 
+        }else{
+            layout_booking_address.visibility = View.GONE
         }
     }
 
@@ -176,19 +185,36 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         if(latitude != 0.0 || longitude != 0.0){
             val latlng = LatLng(latitude, longitude)
             if(::googleMap.isInitialized) {
+                googleMap.clear()
 //        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), zoomLevel))
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoomLevel))
 
-                if (::marker.isInitialized) {
+             /*   if (::marker.isInitialized) {
                     marker.position = latlng
-                } else {
-                    marker = googleMap.addMarker(MarkerOptions().position(latlng))
-                }
+                } else {*/
+                    marker = googleMap.addMarker(
+                            MarkerOptions().position(
+                                    LatLng(
+                                            AppPrefs.getCurrentLatitude().toDouble(),
+                                            AppPrefs.getCurrentLongitude().toDouble()
+                                    )
+                            )
+                                    .title("Current Location")
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.driver_marker))
+                    )
+//                }
                 if (!TextUtils.isEmpty(address)) {
                     marker.title = address
                 }
             }
+        }else{
+            handler = Handler()
+            handler.postDelayed(runnableSetLocation, 2 * 1000)
         }
+    }
+
+    val runnableSetLocation = Runnable {
+        setCurrentLocation()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -256,10 +282,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 if(::googleMap.isInitialized){
                     googleMap.clear()
                     googleMap.addPolyline(options)
-                    if(::marker.isInitialized){
+                 /*   if(::marker.isInitialized){
                         marker.position = LatLng(AppPrefs.getCurrentLatitude().toDouble(), AppPrefs.getCurrentLongitude().toDouble())
                         marker.rotation = AppPrefs.getBearing()
-                    }else {
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.driver_marker))
+                    }else {*/
                         marker = googleMap.addMarker(
                             MarkerOptions().position(
                                 LatLng(
@@ -271,7 +298,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.driver_marker))
                                 .rotation(AppPrefs.getBearing())
                         )
-                    }
+//                    }
                     handler = android.os.Handler()
                     handler.removeCallbacks(runnable)
                     handler.postDelayed(runnable, 2 * 1000)
@@ -291,11 +318,28 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             "Journey_Started" -> {
                 AppPrefs.setBookingStatus(JOURNEY_COMPLETE)
                 (requireActivity() as HomeActivity).driverBookingRespose(4)
+                layout_booking_address.visibility = View.GONE
+                tvWaiting.visibility = View.VISIBLE
+                btn_status_change.text = requireActivity().getString(R.string.driver_reached)
+                btn_status_change.visibility = View.GONE
+                AppPrefs.setBookingId("")
+                AppPrefs.setDropAdress("")
+                AppPrefs.setPickupAdress("")
+                AppPrefs.setDropLatitude("")
+                AppPrefs.setDropLongitude("")
+                AppPrefs.setPickupLatitude("")
+                AppPrefs.setPickupLongitude("")
+                googleMap.clear()
+                handler.removeCallbacks(runnable)
+                setCurrentLocation()
             }
             "Driver_Reached" -> {
                 AppPrefs.setBookingStatus(JOURNEY_STARTED)
                 handler = Handler()
                 handler.post(runnable)
+                tvAddressHeader.text = "DROP ADDRESS:"
+                tvAddress.text = dropAddress
+                btn_status_change.text = "JOURNEY COMPLETE"
             }
             "Journey_Complete" -> {
                 AppPrefs.setBookingStatus(JOURNEY_COMPLETE)
@@ -310,11 +354,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
 
     val runnable = Runnable {
-        routeUrl = getURL(
-            LatLng(AppPrefs.getCurrentLatitude().toDouble(), AppPrefs.getCurrentLongitude().toDouble()),
-            LatLng(dropLat.toString().toDouble(),dropLong.toString().toDouble()))
-        Log.i(TAG, "Route Url >  $routeUrl")
-        getRoute(routeUrl)
+        if(!TextUtils.isEmpty(AppPrefs.getBookingId())) {
+            routeUrl = getURL(
+                    LatLng(AppPrefs.getCurrentLatitude().toDouble(), AppPrefs.getCurrentLongitude().toDouble()),
+                    LatLng(dropLat.toString().toDouble(), dropLong.toString().toDouble()))
+            Log.i(TAG, "Route Url >  $routeUrl")
+            getRoute(routeUrl)
+        }
     }
 
     private fun decodePoly(encoded: String): List<LatLng> {
