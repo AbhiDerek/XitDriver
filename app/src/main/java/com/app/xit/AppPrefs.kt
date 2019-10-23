@@ -34,6 +34,22 @@ object AppPrefs {
         editor.apply()
     }
 
+    fun setDistance(distance: Float){
+        sharedPreferences.edit().putFloat(getBookingId()+"_distance", distance).apply()
+    }
+
+    fun getDistance(): Float{
+        return sharedPreferences.getFloat(getBookingId()+"_distance", 0.0f)
+    }
+
+    fun setBearing(bearing: Float){
+        sharedPreferences.edit().putFloat(getBookingId()+"_bearing", bearing).apply()
+    }
+
+    fun getBearing(): Float{
+        return sharedPreferences.getFloat(getBookingId()+"_bearing", 0.0f)
+    }
+
     fun isLogin(): Boolean{
         return sharedPreferences.getBoolean(loginKey, false)
     }

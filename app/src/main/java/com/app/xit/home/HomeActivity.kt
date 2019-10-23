@@ -6,39 +6,42 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
-import android.util.Log
-import androidx.core.view.GravityCompat
-import androidx.appcompat.app.ActionBarDrawerToggle
+import android.view.Menu
 import android.view.MenuItem
-import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
+import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.view.Menu
-import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.app.xit.*
-import com.app.xit.home.viewmodel.HomeActivityViewModel
-import com.app.xit.location.BookingData
-import com.app.xit.userprofile.DriverModel
+import com.app.xit.AppPrefs
+import com.app.xit.GetCurrentLocationService
+import com.app.xit.ServerResponse
+import android.util.Log
+import com.google.gson.Gson
+
+import com.app.xit.MainActivity
+import com.app.xit.R
 import com.app.xit.utill.AppConstants
 import com.app.xit.utill.HitApi
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.gson.Gson
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.nav_header_home.*
 import org.json.JSONObject
+import java.util.*
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, LocationUpdate, PageNavigation {
 
@@ -94,6 +97,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             toggle.syncState()
 
             navView.setNavigationItemSelectedListener(this)
+            btnAccept.setOnClickListener {
+                driverBookingRespose(3)
+            }
+
+            btnReject.setOnClickListener {
+                driverBookingRespose(2)
+            }
 
             replaceFragment(HomeFragment())
         }else{
@@ -128,14 +138,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         isBooking = intent?.getBooleanExtra("is_passenger_request", false)
         if(isBooking as Boolean) {
             layoutRequest.visibility = View.VISIBLE
-            btnAccept.setOnClickListener {
-                driverBookingRespose(true)
-            }
-
-            btnReject.setOnClickListener {
-                driverBookingRespose(false)
-            }
-
             Handler().postDelayed(runnable, 45 * 1000)
         }
     }
@@ -237,8 +239,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 supportActionBar?.setTitle("History")
                 replaceFragment(HistoryFragment())
             }
-            AppConstants.bookingInformationPage -> {
-
+            AppConstants.bankingDetail -> {
+                supportActionBar?.setTitle("Banking Information")
+                replaceFragment(BankDetailFragment())
             }
         }
     }
@@ -304,12 +307,18 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 
         if(findFragment != null) {
-//            supportFragmentManager.popBackStackImmediate(fragment.javaClass.name, 0)
-            findFragment.arguments = fragment.arguments
-            transaction.replace(R.id.container, findFragment)
-            transaction.commit()
-
             currentFragment = findFragment.javaClass.name
+            val findFlag = supportFragmentManager.popBackStackImmediate(fragment.javaClass.name, 0)
+            if(!findFlag) {
+                findFragment.arguments = fragment.arguments
+                transaction.replace(R.id.container, findFragment)
+                transaction.commit()
+            }else{
+                if(currentFragment.equals("HomeFragment")){
+                    (findFragment as HomeFragment).setFragmentArgument(fragment.arguments)
+                }
+            }
+
         }else{
             transaction.replace(R.id.container, fragment)
                 .addToBackStack(fragment.javaClass.name)
@@ -347,28 +356,59 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     pickLatitude = pLat?.toDouble() as Double
                 }
                 if(!TextUtils.isEmpty(pLong)) {
-                    pickLongitude = pLong!!. toDouble ()
+                    pickLongitude = pLong?.toDouble() as Double
                 }
+
+                if(TextUtils.isEmpty(pLat) && TextUtils.isEmpty(pLong)){
+                    val address = getLocationFromAddress(pickAddress.toString())
+                    pickLatitude = address.latitude
+                    pickLongitude = address.longitude
+                }
+
                 AppPrefs.setPickupLatitude(pickLatitude.toString())
                 AppPrefs.setPickupLongitude(pickLongitude.toString())
                 AppPrefs.setPickupAdress(pickAddress)
+                AppPrefs.setBookingId(bookingId)
 
-                dropLatitude = intent?.getStringExtra("drop_latitude")!!.toDouble()
-                dropLongitude = intent?.getStringExtra("drop_longitude")!!.toDouble()
+                val drLat = intent?.getStringExtra("drop_latitude")
+                val drLong = intent?.getStringExtra("drop_longitude")
                 dropAddress = intent?.getStringExtra("drop_address")
+                if(!TextUtils.isEmpty(drLat)) {
+                    dropLatitude = drLat?.toDouble() as Double
+                }
+                if(!TextUtils.isEmpty(drLong)) {
+                    dropLongitude = drLong?.toDouble() as Double
+                }
+
+                if(TextUtils.isEmpty(drLat) && TextUtils.isEmpty(drLong)){
+                    val address = getLocationFromAddress(dropAddress.toString())
+                    dropLatitude = address.latitude
+                    dropLongitude = address.longitude
+                }
+
                 AppPrefs.setDropLatitude(dropLatitude.toString())
                 AppPrefs.setDropLongitude(dropLongitude.toString())
                 AppPrefs.setDropAdress(dropAddress)
+
+                layoutRequest.visibility = View.VISIBLE
+                Handler().postDelayed(runnable, 45 * 1000)
+
             }catch (ex: Exception){
                 ex.printStackTrace()
             }
 
-            if(!(isBooking as Boolean)) {
-                driverBookingRespose(acceptFlag as Boolean)
+           /* if(!(isBooking as Boolean)) {
+                var status = 2
+                if(isBooking as Boolean) {
+                    status = 2
+                }else{
+                    status =  3
+                }
+                driverBookingRespose(status)
             }
             else if(isBooking as Boolean){
                 onNewIntent(intent)
-            }
+            }*/
         }
     }
 
@@ -377,7 +417,21 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
-    private fun driverBookingRespose(flag: Boolean){
+    fun getLocationFromAddress(address: String): Address{
+        val geoCoder = Geocoder(this)
+        var addressList: List<Address>
+        var location: Address = Address(Locale.getDefault())
+        try {
+            addressList = geoCoder.getFromLocationName(address, 5)
+            location = addressList.get(0)
+//            return location
+        }catch (ex: java.lang.Exception){
+
+        }
+        return location
+    }
+
+    public fun driverBookingRespose(bookingStatus: Int){
 //        var map= mutableMapOf<String, String>()
 //        https://websitexperts.co/demo/xit/rstapi/driver_response.php for receive or reject
 //         order-idSt?ring,@"driver_id",orderString,@"order_id",statusString,@"status"
@@ -385,39 +439,38 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         var map = JSONObject()
         map.put("driver_id", AppPrefs.getDriverId())
-        map.put("order_id", AppPrefs.getDriverId())
-        if(flag){
-            map.put("status", "2")
-        }else{
-            map.put("status", "3")
-        }
+        map.put("order_id", AppPrefs.getBookingId())
+        map.put("status", bookingStatus.toString())
+
         progressBar.visibility = View.VISIBLE
 
         HitApi.hitPostJsonRequest(this, AppConstants.driverResponse, map, object : ServerResponse {
             override fun success(data: String) {
                 super.success(data)
                 progressBar.visibility = View.GONE
-                Handler().postDelayed(runnable, 1 * 1000)
-
-                val homeFragment = HomeFragment()
-                val bundle = Bundle().apply {
-                    putString("booking_id", bookingId)
-                    putString("pick_lat", bookingId)
-                    putString("pick_long", bookingId)
-                    putString("pick_address", bookingId)
-                }
-
-                homeFragment.arguments = bundle
-
-                replaceFragment(homeFragment)
-                AppPrefs.setBookingId(bookingId)
+                Log.i(TAG, "Driver Booking Response : $data")
 
                 val success = JSONObject(data).optString("success")
-                if(success.equals("1")) {
-                    val json: JSONObject = JSONObject(data).optJSONObject("data")
-                    var gson = Gson()
+                if(success.equals("0")) {
+//                    val json: JSONObject = JSONObject(data).optJSONObject("data")
+//                    var gson = Gson()
 //                    val driverModel : DriverModel = gson.fromJson(json.toString(), DriverModel::class.java)
 //                    AppConstants.driverDetailModel = driverModel
+//                            For rejection bookingStatus == 3
+                    if(bookingStatus == 3) {
+                        Handler().postDelayed(runnable, 1 * 1000)
+
+                        val homeFragment = HomeFragment()
+                        val bundle = Bundle().apply {
+                            putString("booking_id", bookingId)
+                            putInt("booking_status", bookingStatus)
+                        }
+
+                        homeFragment.arguments = bundle
+                        AppPrefs.setBookingId(bookingId)
+
+                        replaceFragment(homeFragment)
+                    }
 
                 }
 

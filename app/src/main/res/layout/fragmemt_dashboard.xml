@@ -85,6 +85,7 @@
                 android:text="Banking Information"/>
 
         <TextView
+                android:id="@+id/tv_driver"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -96,7 +97,7 @@
                 android:textColor="@color/txt_color"
                 android:layout_margin="@dimen/padding_2dp"
                 android:textSize="@dimen/text_size_12"
-                android:text="Vehicle Information"/>
+                android:text="Driver"/>
 
         <TextView
                 android:layout_width="match_parent"
@@ -109,6 +110,7 @@
                 android:drawableTop="@drawable/ic_calendar"
                 android:textColor="@color/txt_color"
                 android:layout_margin="@dimen/padding_2dp"
+                android:visibility="invisible"
                 android:textSize="@dimen/text_size_12"
                 android:text="Booking History"/>
 

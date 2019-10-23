@@ -16,6 +16,7 @@ import com.app.xit.home.HomeActivity
 import com.app.xit.utill.AppConstants
 import com.app.xit.utill.HitApi
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.LatLng
 import org.json.JSONObject
 
 class GetCurrentLocationService(): Service(){
@@ -44,6 +45,15 @@ class GetCurrentLocationService(): Service(){
                 for (location in locationResult.locations){
                     Log.i(TAG, "Location Callback ${location?.latitude}, ${location?.longitude}")
 
+                    if(!TextUtils.isEmpty(AppPrefs.getBookingId()) && !AppPrefs.getBookingId().equals("0")){
+                        val distanceLocation = Location("DistanceLocation")
+                        distanceLocation.latitude = AppPrefs.getCurrentLatitude().toDouble()
+                        distanceLocation.longitude = AppPrefs.getCurrentLongitude().toDouble()
+                        val distance = location.distanceTo(distanceLocation) + AppPrefs.getDistance()
+                        AppPrefs.setDistance(distance)
+
+                        AppPrefs.setBearing(location.bearingTo(distanceLocation))
+                    }
                     AppPrefs.setCurrentLatitude(location?.latitude as Double)
                     AppPrefs.setCurrentLongitude(location?.longitude as Double)
 

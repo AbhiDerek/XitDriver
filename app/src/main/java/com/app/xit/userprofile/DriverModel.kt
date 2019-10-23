@@ -1,5 +1,39 @@
 package com.app.xit.userprofile
 
+
+
+data class DriverModel(val driver_id: String?,
+                       val name: String?,
+                       val email: String?,
+                       val password: String?,
+                       val mobile_no: String?,
+                       val user_photo: String?,
+                       val dl_photourl: String?,
+                       val activatedstatus: String?,
+                       val vehicle_model: String?,
+                       val street_no: String?,
+                       val unit_no: String?,
+                       val street_name: String?,
+                       val city: String?,
+                       val state: String?,
+                       val zipcode: String?,
+                       val social_security_card: String?,
+                       val vehicle_make: String?,
+                       val vehicle_registration_img: String?,
+                       val vehicle_license_img: String?,
+                       val vehicle_insurence_img: String?,
+                       val business_id: Any?,
+                       val driver_type: String?,
+                       val access_token: String?,
+                       val login_status: String?,
+                       val type_vehicle: String?,
+                       val dl_no: String?,
+                       val ss_card_no: String?,
+                       val bank_name: String?,
+                       val ac_no: String?,
+                       val routing_no: String?)
+
+/*
 data class DriverModel(val driver_id: String?,
                        val name: String?,
                        val email: String?,
@@ -22,4 +56,4 @@ data class DriverModel(val driver_id: String?,
                        val business_id: Any?,
                        val driver_type: String?,
                        val access_token: String?,
-                       val login_status: String?)
+                       val login_status: String?)*/

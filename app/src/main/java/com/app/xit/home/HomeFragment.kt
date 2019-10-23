@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -31,10 +32,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
@@ -53,18 +51,22 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     lateinit var currentAddress: String
     lateinit var supportMapFragment: SupportMapFragment
     lateinit var googleMap: GoogleMap
+    lateinit var marker: Marker
     lateinit var fab: FloatingActionButton
     lateinit var layout_booking_address: LinearLayout
     lateinit var btn_status_change: Button
 
     private val MY_PERMISSIONS_REQUEST_LOCATION : Int = 2109
     var zoomLevel: Float = 11.0f
-    lateinit var marker: Marker
     var bookinId: String? = null
     var pickLat: String? = null
     var pickLong: String? = null
     var pickAddress: String? = null
+    var dropLat: String? = null
+    var dropLong: String? = null
+    var dropAddress: String? = null
     var routeUrl: String? = null
+    lateinit var handler: Handler
 
     companion object{
         val JOURNEY_STARTED = "Journey_Started"
@@ -106,30 +108,40 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
                 setCurrentLocation(address)
             }
-            //Route to agra
-            routeUrl = getURL(LatLng(latitude, longitude), LatLng(28.72153,77.463759))
-            getRoute(routeUrl)
+
         }
         supportMapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         supportMapFragment.getMapAsync(this)
 
-        checkBookingStatus()
+        setFragmentArgument(arguments)
 
         return view
     }
 
-    private fun checkBookingStatus(){
-        bookinId = arguments?.getString("booking_id")
-        pickLat = arguments?.getString("pick_lat")
-        pickLong = arguments?.getString("pick_long")
-        pickAddress = arguments?.getString("pick_address")
+    public fun setFragmentArgument(args: Bundle?){
+        bookinId = args?.getString("booking_id")
+        var bookingStatus = args?.getInt("booking_status", 0)
+        pickLong = AppPrefs.getPickupLongitude()
+        pickLat = AppPrefs.getPickupLatitude()
+        pickAddress = AppPrefs.getPickupAddress()
+
+        dropLat = AppPrefs.getDropLatitude()
+        dropLong = AppPrefs.getDropLongitude()
+        dropAddress = AppPrefs.getDropAddress()
+
 
         if(!TextUtils.isEmpty(bookinId) && !TextUtils.isEmpty(pickLat) && !TextUtils.isEmpty(pickLong) && !TextUtils.isEmpty(pickAddress)){
             layout_booking_address.visibility = View.VISIBLE
             btn_status_change.visibility = View.VISIBLE
+            AppPrefs.setBookingStatus(JOURNEY_STARTED)
+
+            routeUrl = getURL(
+                LatLng(AppPrefs.getCurrentLatitude().toDouble(), AppPrefs.getCurrentLongitude().toDouble()),
+                LatLng(pickLat.toString().toDouble(), pickLong.toString().toDouble()))
+            Log.i(TAG, "Route Url : $routeUrl")
+            getRoute(routeUrl)
+
         }
-        
-        AppPrefs.setBookingStatus(JOURNEY_STARTED)
     }
 
     override fun onResume() {
@@ -239,10 +251,30 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     options.add(it)
                 }
 
-                options.add(LatLng(28.72153,77.463759))
+                options.add(LatLng(AppPrefs.getDropLatitude().toDouble(), AppPrefs.getDropLongitude().toDouble()))
 
                 if(::googleMap.isInitialized){
+                    googleMap.clear()
                     googleMap.addPolyline(options)
+                    if(::marker.isInitialized){
+                        marker.position = LatLng(AppPrefs.getCurrentLatitude().toDouble(), AppPrefs.getCurrentLongitude().toDouble())
+                        marker.rotation = AppPrefs.getBearing()
+                    }else {
+                        marker = googleMap.addMarker(
+                            MarkerOptions().position(
+                                LatLng(
+                                    AppPrefs.getCurrentLatitude().toDouble(),
+                                    AppPrefs.getCurrentLongitude().toDouble()
+                                )
+                            )
+                                .title("Current Location")
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.driver_marker))
+                                .rotation(AppPrefs.getBearing())
+                        )
+                    }
+                    handler = android.os.Handler()
+                    handler.removeCallbacks(runnable)
+                    handler.postDelayed(runnable, 2 * 1000)
                 }
             }
 
@@ -253,44 +285,36 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         })
     }
 
-    private fun changeBookingStatus(){
-
-        var map = JSONObject()
-        map.put("driver_id", AppPrefs.getDriverId())
-        map.put("latlong", AppPrefs.getCurrentLatitude() +","+ AppPrefs.getCurrentLongitude())
-
-        HitApi.hitPostJsonRequest(requireContext(), AppConstants.driverLocationUpdate, map, object :
-            ServerResponse {
-
-            override fun success(t: String) {
-                super.success(t)
-                Log.i(TAG, "SUCCESS : ${t.toString()}")
-            }
-
-            override fun error(e: Exception) {
-                super.error(e)
-            }
-
-        })
-    }
-
     private fun driverBookingStatusChange(){
         val bookingStatus = AppPrefs.getBookingStatus()
         when(bookingStatus){
             "Journey_Started" -> {
                 AppPrefs.setBookingStatus(JOURNEY_COMPLETE)
+                (requireActivity() as HomeActivity).driverBookingRespose(4)
             }
             "Driver_Reached" -> {
                 AppPrefs.setBookingStatus(JOURNEY_STARTED)
+                handler = Handler()
+                handler.post(runnable)
             }
             "Journey_Complete" -> {
                 AppPrefs.setBookingStatus(JOURNEY_COMPLETE)
+                (requireActivity() as HomeActivity).driverBookingRespose(1)
             }
             "Booking_Complete" -> {
 
             }
         }
-        changeBookingStatus()
+
+    }
+
+
+    val runnable = Runnable {
+        routeUrl = getURL(
+            LatLng(AppPrefs.getCurrentLatitude().toDouble(), AppPrefs.getCurrentLongitude().toDouble()),
+            LatLng(dropLat.toString().toDouble(),dropLong.toString().toDouble()))
+        Log.i(TAG, "Route Url >  $routeUrl")
+        getRoute(routeUrl)
     }
 
     private fun decodePoly(encoded: String): List<LatLng> {

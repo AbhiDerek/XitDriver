@@ -25,5 +25,6 @@
     <string name="fcm_message">FCM Message</string>
     <string name="driver_reached">DRIVER REACHED</string>
     <string name="dashboard">Dashboard</string>
+    <string name="routing_number_ach">Routing Number/Ach</string>
 
 </resources>

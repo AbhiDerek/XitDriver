@@ -25,6 +25,7 @@ object AppConstants{
     val profilePage = "Profile Page"
     val vehicleInformationPage = "Vehicle Information"
     val bookingHistoryPage = "Booking History"
+    val bankingDetail = "Banking Detail"
     val bookingInformationPage = "Booking Information"
 }
 
