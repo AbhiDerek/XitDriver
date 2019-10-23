@@ -50,6 +50,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     lateinit var supportMapFragment: SupportMapFragment
     lateinit var googleMap: GoogleMap
     lateinit var marker: Marker
+    lateinit var dropMarker: Marker
     lateinit var fab: FloatingActionButton
     lateinit var tvWaiting: TextView
     lateinit var tvAddressHeader: TextView
@@ -100,19 +101,26 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         fab = view.findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { view ->
-            latitude = AppPrefs.getCurrentLatitude().toDouble()
-            longitude = AppPrefs.getCurrentLongitude().toDouble()
-            val address = AppUtill.getAddressFromLatLong(requireContext(), latitude = latitude, longitude = longitude)
-            if(TextUtils.isEmpty(address)) {
-                Snackbar.make(view, "Searching Current Location... ", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-            }else{
-                Snackbar.make(view, "Current Location : $address", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-
-                setCurrentLocation(address)
+            try{
+                if(!TextUtils.isEmpty(AppPrefs.getCurrentLatitude()) && !TextUtils.isEmpty(AppPrefs.getCurrentLongitude())) {
+                    latitude = AppPrefs.getCurrentLatitude().toDouble()
+                    longitude = AppPrefs.getCurrentLongitude().toDouble()
+                    val address = AppUtill.getAddressFromLatLong(requireContext(), latitude = latitude, longitude = longitude)
+                    if (TextUtils.isEmpty(address)) {
+                        Snackbar.make(view, "Searching Current Location... ", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show()
+                    } else {
+                        Snackbar.make(view, "Current Location : $address", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show()
+                        setCurrentLocation(address)
+                    }
+                }else{
+                    Snackbar.make(view, "Location not found", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                }
+            }catch (ex: Exception){
+                ex.printStackTrace()
             }
-
         }
         supportMapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         supportMapFragment.getMapAsync(this)
@@ -123,7 +131,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     public fun setFragmentArgument(args: Bundle?){
-        var bookingStatus = args?.getInt("booking_status", 0)
+//        var bookingStatus = args?.getInt("booking_status", 0)
         bookingId = AppPrefs.getBookingId()
         pickLong = AppPrefs.getPickupLongitude()
         pickLat = AppPrefs.getPickupLatitude()
@@ -155,7 +163,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-        location = Location(locationUpdate.getCurrentLocation())
+        try {
+            location = Location(locationUpdate.getCurrentLocation())
+        }catch (ex: Exception){
+            ex.printStackTrace()
+        }
     }
 
     override fun onMapReady(map: GoogleMap?) {
@@ -276,7 +288,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 polypts.forEach {
                     options.add(it)
                 }
-
+                handler = android.os.Handler()
+                if(TextUtils.isEmpty(AppPrefs.getDropLatitude()) || TextUtils.isEmpty(AppPrefs.getDropLongitude())){
+                    handler.removeCallbacks(runnable)
+                    return
+                }
                 options.add(LatLng(AppPrefs.getDropLatitude().toDouble(), AppPrefs.getDropLongitude().toDouble()))
 
                 if(::googleMap.isInitialized){
@@ -298,8 +314,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.driver_marker))
                                 .rotation(AppPrefs.getBearing())
                         )
+
+                    dropMarker = googleMap.addMarker(
+                            MarkerOptions().position(
+                                    LatLng(
+                                            AppPrefs.getDropLatitude().toDouble(),
+                                            AppPrefs.getDropLongitude().toDouble()
+                                    )
+                            )
+                                    .title("Drop Location"))
+
 //                    }
-                    handler = android.os.Handler()
                     handler.removeCallbacks(runnable)
                     handler.postDelayed(runnable, 2 * 1000)
                 }

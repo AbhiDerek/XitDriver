@@ -55,6 +55,7 @@ class ProfileFragment : Fragment(){
     lateinit var tv_driver_profile: TextView
     lateinit var tv_vehicle_information: TextView
 
+    lateinit var imgDriver: ImageView
     lateinit var imgSocialSecurityCard: ImageView
     lateinit var imgVehicleRegister: ImageView
     lateinit var imgVehicleLicensePlate: ImageView
@@ -106,6 +107,7 @@ class ProfileFragment : Fragment(){
         etVehileModel = view.findViewById(R.id.etVehileModel)
         tv_driver_profile = view.findViewById(R.id.tv_driver_profile)
         tv_vehicle_information = view.findViewById(R.id.tv_vehicle_information)
+        imgDriver = view.findViewById(R.id.img_driver)
         imgSocialSecurityCard = view.findViewById(R.id.imgSocialSecurityCard)
         imgVehicleRegister = view.findViewById(R.id.imgVehicleRegister)
         imgVehicleLicensePlate = view.findViewById(R.id.imgVehicleLicensePlate)
@@ -129,7 +131,6 @@ class ProfileFragment : Fragment(){
         }
 
         setEditable(false)
-        fetchDriverProfile()
 
         tv_driver_profile.setOnTouchListener(object : View.OnTouchListener{
             override fun onTouch(view: View?, event: MotionEvent?): Boolean {
@@ -158,6 +159,11 @@ class ProfileFragment : Fragment(){
         })
 
         return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        fetchDriverProfile()
     }
 
 
@@ -235,22 +241,27 @@ class ProfileFragment : Fragment(){
         etvehicleMark.setText(data.vehicle_make)
         etVehileModel.setText(data.vehicle_model)
 
+        if(isAdded) {
+            Glide.with(requireActivity())
+                    .load(BuildConfig.base_image_url + data.user_photo)
+                    .fitCenter().into(imgDriver)
 
-        Glide.with(this)
-            .load( BuildConfig.base_image_url + data.social_security_card)
-            .fitCenter().into(imgSocialSecurityCard)
+            Glide.with(requireActivity())
+                    .load(BuildConfig.base_image_url + data.social_security_card)
+                    .fitCenter().into(imgSocialSecurityCard)
 
-        Glide.with(this)
-            .load( BuildConfig.base_image_url + data.vehicle_registration_img)
-            .fitCenter().into(imgVehicleRegister)
+            Glide.with(requireActivity())
+                    .load(BuildConfig.base_image_url + data.vehicle_registration_img)
+                    .fitCenter().into(imgVehicleRegister)
 
-        Glide.with(this)
-            .load( BuildConfig.base_image_url + data.vehicle_license_img)
-            .fitCenter().into(imgVehicleLicensePlate)
+            Glide.with(this)
+                    .load(BuildConfig.base_image_url + data.vehicle_license_img)
+                    .fitCenter().into(imgVehicleLicensePlate)
 
-        Glide.with(this)
-            .load( BuildConfig.base_image_url + data.vehicle_insurence_img)
-            .fitCenter().into(imgVehicleInsuranceCard)
+            Glide.with(requireActivity())
+                    .load(BuildConfig.base_image_url + data.vehicle_insurence_img)
+                    .fitCenter().into(imgVehicleInsuranceCard)
+        }
     }
 
 

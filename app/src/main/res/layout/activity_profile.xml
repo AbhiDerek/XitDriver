@@ -30,6 +30,15 @@
                             android:drawableRight="@drawable/ic_edit"
                             android:id="@+id/tv_driver_profile"/>
 
+            <ImageView
+                android:id="@+id/img_driver"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_25dp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="center"
+                android:src="@drawable/driver"/>
+
                     <LinearLayout android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
                                   android:orientation="horizontal"
@@ -43,12 +52,13 @@
                                   android:textStyle="bold"
                                   android:layout_weight="0.7"/>
 
-                        <EditText android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:layout_weight="0.3"
-                                  android:textColor="@color/text_color"
-                                  android:background="@android:drawable/edit_text"
-                                  android:id="@+id/etFullName"/>
+                        <EditText
+                            android:id="@+id/etFullName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:background="@android:drawable/editbox_background_normal"
+                            android:textColor="@color/text_color" />
 
                     </LinearLayout>
 
@@ -69,7 +79,7 @@
                                   android:layout_height="wrap_content"
                                   android:layout_weight="0.3"
                                   android:textColor="@color/text_color"
-                                  android:background="@android:drawable/edit_text"
+                                  android:background="@android:drawable/editbox_background_normal"
                                   android:id="@+id/etFullAddress"/>
 
                     </LinearLayout>
@@ -91,7 +101,7 @@
                                   android:layout_height="wrap_content"
                                   android:layout_weight="0.3"
                                   android:textColor="@color/text_color"
-                                  android:background="@android:drawable/edit_text"
+                                  android:background="@android:drawable/editbox_background_normal"
                                   android:id="@+id/etPhone"/>
 
                     </LinearLayout>
@@ -114,7 +124,7 @@
                                   android:layout_height="wrap_content"
                                   android:layout_weight="0.3"
                                   android:textColor="@color/text_color"
-                                  android:background="@android:drawable/edit_text"
+                                  android:background="@android:drawable/editbox_background_normal"
                                   android:id="@+id/etEmail"/>
 
 
@@ -201,7 +211,7 @@
                               android:layout_height="wrap_content"
                               android:layout_weight="0.3"
                               android:textColor="@color/text_color"
-                              android:background="@android:drawable/edit_text"
+                              android:background="@android:drawable/editbox_background_normal"
                               android:id="@+id/etvehicleMark"/>
 
                 </LinearLayout>
@@ -223,7 +233,7 @@
                               android:layout_height="wrap_content"
                               android:layout_weight="0.3"
                               android:textColor="@color/text_color"
-                              android:background="@android:drawable/edit_text"
+                              android:background="@android:drawable/editbox_background_normal"
                               android:id="@+id/etVehileModel"/>
 
                 </LinearLayout>
