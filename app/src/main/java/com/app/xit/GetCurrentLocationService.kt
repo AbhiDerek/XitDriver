@@ -127,6 +127,11 @@ class GetCurrentLocationService(): Service(){
         return channelId
     }
 
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        super.onTaskRemoved(rootIntent)
+
+    }
+
     fun sendNotification(channelId: String){
         val pendingIntent: PendingIntent =
             Intent(this, HomeActivity::class.java).let { notificationIntent ->

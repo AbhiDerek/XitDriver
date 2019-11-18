@@ -155,19 +155,21 @@ class SignupActivity : BaseActivity(){
             }else {
                 map.put("deviceTokenStr", "FCM TOKEN NOT FOUND")
             }
-
+            progressBar.visibility = View.VISIBLE
             HitApi.hitPostJsonRequest(this, AppConstants.driverRegisteration, map, object : ServerResponse {
                 override fun success(data: String) {
                     super.success(data)
+                    progressBar.visibility = View.GONE
                     val json = JSONObject(data).optJSONObject("data")
 
-//                    AppConstants.driverLoginModel = LoginModel(json.optString("driver_id"), json.optString("name"), json.optString("business_id"))
-//                    setResult(Activity.RESULT_OK)
-//                    finish()
+                    AppConstants.driverLoginModel = LoginModel(json.optString("driver_id"), json.optString("name"), json.optString("business_id"))
+                    setResult(Activity.RESULT_OK)
+                    finish()
                 }
 
                 override fun error(e: Exception) {
                     super.error(e)
+                    progressBar.visibility = View.GONE
                     Log.e(TAG, "ERROR: $e")
                 }
 
@@ -459,9 +461,14 @@ class SignupActivity : BaseActivity(){
     @Throws(IOException::class)
     fun getBitmapFromUri(uri: Uri): Bitmap {
         val parcelFileDescriptor: ParcelFileDescriptor? = contentResolver.openFileDescriptor(uri, "r")
-        val fileDescriptor: FileDescriptor = parcelFileDescriptor!!.fileDescriptor
-        val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
-        parcelFileDescriptor.close()
+        val fileDescriptor: FileDescriptor? = parcelFileDescriptor?.fileDescriptor
+        var image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+        parcelFileDescriptor?.close()
+
+        var width = image.width / 2
+        var height = image.height / 2
+        image = Bitmap.createScaledBitmap(image, width, height, true)
+
         return image
     }
 

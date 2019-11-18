@@ -49,14 +49,17 @@ class ProfileFragment : Fragment(){
     lateinit var etFullAddress: EditText
     lateinit var etPhone: EditText
     lateinit var etEmail: EditText
+    lateinit var etDrivingLicense: EditText
     lateinit var etvehicleMark: EditText
     lateinit var etVehileModel: EditText
+    lateinit var etInsuranceNos: EditText
 
     lateinit var tv_driver_profile: TextView
     lateinit var tv_vehicle_information: TextView
 
     lateinit var imgDriver: ImageView
-    lateinit var imgSocialSecurityCard: ImageView
+//    lateinit var imgSocialSecurityCard: ImageView
+    lateinit var imgDrivingLicense: ImageView
     lateinit var imgVehicleRegister: ImageView
     lateinit var imgVehicleLicensePlate: ImageView
     lateinit var imgVehicleInsuranceCard: ImageView
@@ -71,15 +74,21 @@ class ProfileFragment : Fragment(){
     lateinit var fullAddress: String
     lateinit var phone: String
     lateinit var email: String
+    lateinit var licenseNos: String
     lateinit var vehicleMark: String
     lateinit var vehicleModel: String
+    lateinit var insuranceNos: String
 
-    private val REQUEST_SOCIAL_SECURITY: Int = 42
+    private val REQUEST_PROFILE_PIC: Int = 22
+    private val REQUEST_SOCIAL_SECURITY: Int = 32
+    private val REQUEST_DRIVING_LICENSE: Int = 42
     private val REQUEST_VEHICLE_REG: Int = 52
     private val REQUEST_VEHICLE_LICENSE: Int = 62
     private val REQUEST_VEHICLE_INSURANCE: Int = 72
 
+    lateinit var driverProfileBase64: String
     lateinit var socialSecurityBase64: String
+    lateinit var drivingLicenseBase64: String
     lateinit var vehicleRegisterBase64: String
     lateinit var vehicleLicensePlateBase64: String
     lateinit var vehicleInsuranceCardBase64: String
@@ -103,17 +112,20 @@ class ProfileFragment : Fragment(){
         etFullAddress = view.findViewById(R.id.etFullAddress)
         etPhone = view.findViewById(R.id.etPhone)
         etEmail = view.findViewById(R.id.etEmail)
+        etDrivingLicense = view.findViewById(R.id.etDrivingLicense)
         etvehicleMark = view.findViewById(R.id.etvehicleMark)
         etVehileModel = view.findViewById(R.id.etVehileModel)
         tv_driver_profile = view.findViewById(R.id.tv_driver_profile)
         tv_vehicle_information = view.findViewById(R.id.tv_vehicle_information)
         imgDriver = view.findViewById(R.id.img_driver)
-        imgSocialSecurityCard = view.findViewById(R.id.imgSocialSecurityCard)
+//        imgSocialSecurityCard = view.findViewById(R.id.imgSocialSecurityCard)
+        imgDrivingLicense = view.findViewById(R.id.imgDrivingLic)
         imgVehicleRegister = view.findViewById(R.id.imgVehicleRegister)
         imgVehicleLicensePlate = view.findViewById(R.id.imgVehicleLicensePlate)
         imgVehicleInsuranceCard = view.findViewById(R.id.imgVehicleInsuranceCard)
         linearVehicle = view.findViewById(R.id.linear_Vehicle)
         linearPersonal = view.findViewById(R.id.linear_Personal)
+        etInsuranceNos = view.findViewById(R.id.etInsuranceNos)
 
         if(arguments?.getBoolean("IS_PROFILE")!!){
             linearPersonal.visibility = View.VISIBLE
@@ -172,14 +184,23 @@ class ProfileFragment : Fragment(){
         etFullAddress.isEnabled = boolean
         etPhone.isEnabled = boolean
         etEmail.isEnabled = boolean
+        etDrivingLicense.isEnabled = boolean
         etvehicleMark.isEnabled = boolean
         etVehileModel.isEnabled = boolean
+        etInsuranceNos.isEnabled = boolean
 
         if(boolean) {
-            imgSocialSecurityCard.setOnClickListener {
+          /*  imgSocialSecurityCard.setOnClickListener {
                 performFileSearch(REQUEST_SOCIAL_SECURITY)
 //                showPictureDialog(REQUEST_SOCIAL_SECURITY)
+            }*/
+            imgDriver.setOnClickListener{
+                performFileSearch(REQUEST_PROFILE_PIC)
             }
+            imgDrivingLicense.setOnClickListener{
+                showPictureDialog(REQUEST_DRIVING_LICENSE)
+            }
+
             imgVehicleRegister.setOnClickListener {
                 performFileSearch(REQUEST_VEHICLE_REG)
 //                showPictureDialog(REQUEST_VEHICLE_REG)
@@ -238,17 +259,23 @@ class ProfileFragment : Fragment(){
         etFullAddress.setText(data.street_no +" "+ data.street_name + " "+ data.city)
         etPhone.setText(data.mobile_no)
         etEmail.setText(data.email)
+        etDrivingLicense.setText(data.dl_no)
         etvehicleMark.setText(data.vehicle_make)
         etVehileModel.setText(data.vehicle_model)
+        etInsuranceNos.setText(data.vehicle_insurence_no)
 
         if(isAdded) {
             Glide.with(requireActivity())
                     .load(BuildConfig.base_image_url + data.user_photo)
                     .fitCenter().into(imgDriver)
 
+        /*    Glide.with(requireActivity())
+                    .load(BuildConfig.base_image_url + data.social_security_card)
+                    .fitCenter().into(imgSocialSecurityCard)*/
+
             Glide.with(requireActivity())
                     .load(BuildConfig.base_image_url + data.social_security_card)
-                    .fitCenter().into(imgSocialSecurityCard)
+                    .fitCenter().into(imgDrivingLicense)
 
             Glide.with(requireActivity())
                     .load(BuildConfig.base_image_url + data.vehicle_registration_img)
@@ -322,8 +349,16 @@ class ProfileFragment : Fragment(){
 //        val base64image = AppUtill.bitmapToBase64(bitmap)
         when(requestField){
             REQUEST_SOCIAL_SECURITY -> {
-                socialSecurityBase64 = base64image
-                imgSocialSecurityCard.setImageBitmap(bitmap)
+               /* socialSecurityBase64 = base64image
+                imgSocialSecurityCard.setImageBitmap(bitmap)*/
+            }
+            REQUEST_PROFILE_PIC -> {
+                driverProfileBase64 = base64image
+                imgDriver.setImageBitmap(bitmap)
+            }
+            REQUEST_DRIVING_LICENSE -> {
+                drivingLicenseBase64 = base64image
+                imgDrivingLicense.setImageBitmap(bitmap)
             }
             REQUEST_VEHICLE_REG -> {
                 vehicleRegisterBase64 = base64image
@@ -345,8 +380,13 @@ class ProfileFragment : Fragment(){
     fun getBitmapFromUri(uri: Uri): Bitmap {
         val parcelFileDescriptor: ParcelFileDescriptor? = requireContext().contentResolver.openFileDescriptor(uri, "r")
         val fileDescriptor: FileDescriptor = parcelFileDescriptor!!.fileDescriptor
-        val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+        var image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
         parcelFileDescriptor.close()
+
+        var width = image.width / 2
+        var height = image.height / 2
+        image = Bitmap.createScaledBitmap(image, width, height, true)
+
         return image
     }
 
@@ -379,9 +419,12 @@ class ProfileFragment : Fragment(){
         fullName = etFullName.text.toString()
         fullAddress = etFullAddress.text.toString()
         email = etEmail.text.toString()
+        licenseNos = etDrivingLicense.text.toString()
         phone = etPhone.text.toString()
         vehicleMark = etvehicleMark.text.toString()
         vehicleModel = etVehileModel.text.toString()
+        insuranceNos = etInsuranceNos.text.toString()
+
 
 
     }

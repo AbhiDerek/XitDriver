@@ -37,7 +37,7 @@
                     android:layout_marginRight="25dp"
                     android:id="@+id/etName"
                     android:textColor="@color/text_color"
-                    android:background="@android:drawable/edit_text"
+                    android:background="@android:drawable/editbox_background_normal"
                     android:theme="@style/edit_text_style"/>
 
             <TextView android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                     android:id="@+id/etEmail"
                     android:textColor="@color/text_color"
                     android:theme="@style/edit_text_style"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                     android:maxLines="1"
                     android:inputType="phone"
                     
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -98,8 +98,7 @@
                     android:inputType="textPassword"
                     android:textColor="@color/text_color"
                     android:maxLines="1"
-                    
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -119,7 +118,7 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:textColor="@color/text_color"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
 
         </LinearLayout>
@@ -152,7 +151,7 @@
                     android:maxLines="1"
                     android:inputType="text"
                     android:textColor="@color/text_color"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -172,7 +171,7 @@
                     android:maxLines="1"
                     android:inputType="text"
                     android:textColor="@color/text_color"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
 
             <TextView android:layout_width="match_parent"
@@ -193,7 +192,7 @@
                     android:maxLines="1"
                     android:inputType="text"
                     android:textColor="@color/text_color"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -213,7 +212,7 @@
                     android:maxLines="1"
                     android:inputType="text"
                     android:textColor="@color/text_color"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -233,7 +232,7 @@
                     android:maxLines="1"
                     android:textColor="@color/text_color"
                     android:inputType="text"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
         </LinearLayout>
 
@@ -280,7 +279,7 @@
                     android:clickable="true"
                     android:focusable="false"
                     android:textColorHint="@color/text_color"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
 
             <TextView android:layout_width="match_parent"
@@ -303,7 +302,7 @@
                     android:textColor="@color/text_color"
                     android:clickable="true"
                     android:focusable="false"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
 
             <TextView android:layout_width="match_parent"
@@ -324,7 +323,7 @@
                     android:maxLines="1"
                     android:inputType="text"
                     android:textColor="@color/text_color"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -343,7 +342,7 @@
                     android:id="@+id/etVehicleMake"
                     android:textColor="@color/text_color"
                     android:theme="@style/edit_text_style"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -362,7 +361,7 @@
                     android:id="@+id/etVehicleModel"
                     android:theme="@style/edit_text_style"
                     android:textColor="@color/text_color"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
 
             <TextView android:layout_width="match_parent"
@@ -384,7 +383,7 @@
                     android:theme="@style/edit_text_style"
                     android:clickable="true"
                     android:focusable="false"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -405,7 +404,7 @@
                     android:focusable="false"
                     android:clickable="true"
                     android:textColor="@color/text_color"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -426,7 +425,7 @@
                     android:focusable="false"
                     android:clickable="true"
                     android:textColor="@color/text_color"
-                    android:background="@android:drawable/edit_text"/>
+                    android:background="@android:drawable/editbox_background_normal"/>
 
         </LinearLayout>
 

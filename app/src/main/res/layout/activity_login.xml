@@ -38,9 +38,10 @@
                 android:id="@+id/textInputLayoutEmail"
                 android:hint="Email"
                 android:lines="1"
+                android:padding="@dimen/padding_10dp"
                 android:textColorHint="@color/black"
                 android:textColor="@color/black"
-                android:background="@android:drawable/edit_text"/>
+                android:background="@android:drawable/editbox_background_normal"/>
 
 
         <EditText
@@ -49,10 +50,11 @@
                 android:id="@+id/textInputLayoutPassword"
                 android:hint="Password"
                 android:lines="1"
+                android:padding="@dimen/padding_10dp"
                 android:inputType="textPassword"
                 android:textColorHint="@color/black"
                 android:textColor="@color/black"
-                android:background="@android:drawable/edit_text"/>
+                android:background="@android:drawable/editbox_background_normal"/>
 
 
         <RelativeLayout

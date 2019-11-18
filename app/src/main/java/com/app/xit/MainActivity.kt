@@ -18,7 +18,6 @@ class MainActivity : BaseActivity() {
     val SPLASH_CODE : Int = 1212
     val LOGIN_CODE : Int = 1215
 
-
     lateinit var handler : Handler
 
     override fun onCreate(savedInstanceState: Bundle?) {

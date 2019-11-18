@@ -20,18 +20,31 @@ import org.w3c.dom.Text
 class LoginActivity : BaseActivity(){
 
     val TAG : String = "LoginActivity"
-
+    val SIGNUP_REQUEST_CODE = 1240
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setLayout(R.layout.activity_login)
 
+        buttonFotgetPwd.setOnClickListener {
+
+        }
 
         buttonSignup.setOnClickListener {
-            startActivity(Intent(this, SignupActivity::class.java))
+            startActivityForResult(Intent(this, SignupActivity::class.java), SIGNUP_REQUEST_CODE)
         }
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == SIGNUP_REQUEST_CODE){
+            if(resultCode == Activity.RESULT_OK){
+                progressBar.visibility = View.VISIBLE
+                loginDone()
+            }
+        }
+    }
 
     public fun login(view: View){
         var email = textInputLayoutEmail.text.toString()
@@ -54,11 +67,8 @@ class LoginActivity : BaseActivity(){
                     progressBar.visibility = View.GONE
                     val json = JSONObject(data).optJSONObject("data")
                     AppConstants.driverLoginModel = LoginModel(json.optString("driver_id"), json.optString("name"), json.optString("business_id"))
-                    AppPrefs.setLogin(true)
-                    AppPrefs.setDriverId(json.optString("driver_id"))
                     AppPrefs.setDriverEmail(email)
-                    setResult(Activity.RESULT_OK)
-                    finish()
+                    loginDone()
                 }
 
                 override fun error(e: Exception) {
@@ -69,6 +79,14 @@ class LoginActivity : BaseActivity(){
 
             })
 //        }
+    }
+
+    private fun loginDone(){
+        AppPrefs.setLogin(true)
+        AppPrefs.setDriverId(AppConstants.driverLoginModel.driverId)
+        setResult(Activity.RESULT_OK)
+        progressBar.visibility = View.GONE
+        finish()
     }
 
     private fun validateEmail(email: String): Boolean{

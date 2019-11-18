@@ -32,8 +32,8 @@
 
             <ImageView
                 android:id="@+id/img_driver"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_margin="@dimen/padding_25dp"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="center"
@@ -127,6 +127,27 @@
                                   android:background="@android:drawable/editbox_background_normal"
                                   android:id="@+id/etEmail"/>
 
+                    </LinearLayout>
+
+                    <LinearLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="@dimen/padding_5dp"
+                        android:weightSum="1">
+
+                        <TextView android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Driving License no."
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold"
+                            android:layout_weight="0.7"/>
+
+                        <EditText android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:textColor="@color/text_color"
+                            android:background="@android:drawable/editbox_background_normal"
+                            android:id="@+id/etDrivingLicense"/>
 
                     </LinearLayout>
 
@@ -152,7 +173,8 @@
 
                     </LinearLayout>
 
-                    <LinearLayout android:layout_width="match_parent"
+
+                  <!--  <LinearLayout android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
                                   android:orientation="horizontal"
                                   android:layout_margin="@dimen/padding_5dp"
@@ -172,7 +194,7 @@
                                 android:scaleType="center"
                                 android:id="@+id/imgSocialSecurityCard"/>
 
-                    </LinearLayout>
+                    </LinearLayout>-->
 
         </LinearLayout>
 
@@ -281,6 +303,29 @@
                             android:id="@+id/imgVehicleLicensePlate"/>
 
                 </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/padding_5dp"
+                android:weightSum="1">
+
+                <TextView android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Insurance No."
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:layout_weight="0.7"/>
+
+                <EditText android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:textColor="@color/text_color"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:id="@+id/etInsuranceNos"/>
+
+
+            </LinearLayout>
 
                 <LinearLayout android:layout_width="match_parent"
                               android:layout_height="wrap_content"

@@ -59,7 +59,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     lateinit var btn_status_change: Button
 
     private val MY_PERMISSIONS_REQUEST_LOCATION : Int = 2109
-    var zoomLevel: Float = 14.0f
+    var zoomLevel: Float = 16.0f
     var bookingId: String? = null
     var pickLat: String? = null
     var pickLong: String? = null
@@ -212,7 +212,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                                     )
                             )
                                     .title("Current Location")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.driver_marker))
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.car_marker))
                     )
 //                }
                 if (!TextUtils.isEmpty(address)) {

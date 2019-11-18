@@ -71,6 +71,7 @@ object HitApi {
             Log.i("HitApi", "URL : ${url.trim()}")
             Log.i("HitApi", "Param : ${postData.toString()  }")
         }
+
         val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, postData,
             Response.Listener { response ->postData
                 if(BuildConfig.DEBUG) {

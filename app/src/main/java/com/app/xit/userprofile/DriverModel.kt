@@ -22,6 +22,7 @@ data class DriverModel(val driver_id: String?,
                        val vehicle_registration_img: String?,
                        val vehicle_license_img: String?,
                        val vehicle_insurence_img: String?,
+                       val vehicle_insurence_no: String?,
                        val business_id: Any?,
                        val driver_type: String?,
                        val access_token: String?,
@@ -32,6 +33,7 @@ data class DriverModel(val driver_id: String?,
                        val bank_name: String?,
                        val ac_no: String?,
                        val routing_no: String?)
+
 
 /*
 data class DriverModel(val driver_id: String?,
