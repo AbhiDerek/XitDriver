@@ -425,7 +425,53 @@ class ProfileFragment : Fragment(){
         vehicleModel = etVehileModel.text.toString()
         insuranceNos = etInsuranceNos.text.toString()
 
+        var map = JSONObject()
+        map.put("name", fullName)
+        map.put("mobile_no", phone)
+//        map.put("unit_no", fullAddress)
+//        map.put("street_no", fullAddress)
+//        map.put("street_name", fullAddress)
+//        map.put("city", fullAddress)
+//        map.put("state", fullAddress)
+//        map.put("zipcode", fullAddress)
+        map.put("vehicle_make", vehicleMark)
+        map.put("vehicle_model", vehicleModel)
+        map.put("driving_license", licenseNos)
+//        map.put("social_security_card", socialSecurityBase64)
+        if(::vehicleRegisterBase64.isInitialized) {
+            map.put("vehicle_registration", vehicleRegisterBase64)
+        }
+        if(::vehicleLicensePlateBase64.isInitialized) {
+            map.put("vehicle_license_plate", vehicleLicensePlateBase64)
+        }
+        if(::vehicleInsuranceCardBase64.isInitialized) {
+            map.put("vehicle_insurance_card", vehicleInsuranceCardBase64)
+        }
+        map.put("driver_id", AppPrefs.getDriverId())
 
+        progressBar.visibility = View.VISIBLE
+        HitApi.hitPostJsonRequest(requireContext(), AppConstants.driverProfileUpdate, map, object : ServerResponse {
+            override fun success(data: String) {
+                super.success(data)
+                progressBar.visibility = View.GONE
+                val success = JSONObject(data).optString("success")
+                if(success.equals("1")) {
+                   /* val json: JSONObject = JSONObject(data).optJSONObject("data")
+                    var gson = Gson()
+                    val driverModel : DriverModel = gson.fromJson(json.toString(), DriverModel::class.java)
+                    AppConstants.driverDetailModel = driverModel
+                    setData()*/
+                }
+
+            }
+
+            override fun error(e: Exception) {
+                super.error(e)
+                progressBar.visibility = View.GONE
+                Log.e(TAG, "ERROR: $e")
+            }
+
+        })
 
     }
 
