@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -25,14 +26,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.app.xit.AppPrefs
-import com.app.xit.GetCurrentLocationService
-import com.app.xit.ServerResponse
-import android.util.Log
-import com.google.gson.Gson
-
-import com.app.xit.MainActivity
-import com.app.xit.R
+import com.app.xit.*
 import com.app.xit.utill.AppConstants
 import com.app.xit.utill.HitApi
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -470,6 +464,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         AppPrefs.setBookingId(bookingId)
 
                         replaceFragment(homeFragment)
+                    } else if(bookingStatus == 1){
+
                     }
 
                 }

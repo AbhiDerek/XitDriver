@@ -355,6 +355,7 @@ class ProfileFragment : Fragment(){
             REQUEST_PROFILE_PIC -> {
                 driverProfileBase64 = base64image
                 imgDriver.setImageBitmap(bitmap)
+                updateDriverImage(driverProfileBase64)
             }
             REQUEST_DRIVING_LICENSE -> {
                 drivingLicenseBase64 = base64image
@@ -473,6 +474,36 @@ class ProfileFragment : Fragment(){
 
         })
 
+    }
+
+    fun updateDriverImage(driverImage: String){
+        var map = JSONObject()
+        map.put("user_photo", driverImage)
+        map.put("driver_id", AppPrefs.getDriverId())
+
+        progressBar.visibility = View.VISIBLE
+        HitApi.hitPostJsonRequest(requireContext(), AppConstants.driverProfilePicUpdate, map, object : ServerResponse {
+            override fun success(data: String) {
+                super.success(data)
+                progressBar.visibility = View.GONE
+                val success = JSONObject(data).optString("success")
+                if(success.equals("1")) {
+                    /* val json: JSONObject = JSONObject(data).optJSONObject("data")
+                     var gson = Gson()
+                     val driverModel : DriverModel = gson.fromJson(json.toString(), DriverModel::class.java)
+                     AppConstants.driverDetailModel = driverModel
+                     setData()*/
+                }
+
+            }
+
+            override fun error(e: Exception) {
+                super.error(e)
+                progressBar.visibility = View.GONE
+                Log.e(TAG, "ERROR: $e")
+            }
+
+        })
     }
 
 

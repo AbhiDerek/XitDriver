@@ -34,8 +34,26 @@ object AppPrefs {
         editor.apply()
     }
 
+    fun setDuration(time: Long){
+        if(time == 0L){
+            sharedPreferences.edit().putLong(getBookingId() + "_time", 0L).apply()
+        }else {
+            val calculateTime = time + getDuration()
+            sharedPreferences.edit().putLong(getBookingId() + "_time", calculateTime).apply()
+        }
+    }
+
+    fun getDuration(): Long{
+        return sharedPreferences.getLong(getBookingId()+"_time", 0)
+    }
+
     fun setDistance(distance: Float){
-        sharedPreferences.edit().putFloat(getBookingId()+"_distance", distance).apply()
+        if(distance == 0f){
+            sharedPreferences.edit().putFloat(getBookingId() + "_distance", 0.0f).apply()
+        }else {
+            val calculateDistance = distance + getDistance()
+            sharedPreferences.edit().putFloat(getBookingId() + "_distance", calculateDistance).apply()
+        }
     }
 
     fun getDistance(): Float{

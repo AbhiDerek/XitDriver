@@ -22,10 +22,11 @@ import org.json.JSONObject
 class GetCurrentLocationService(): Service(){
 
     private lateinit var locationCallback: LocationCallback
-    val CHANNEL_DEFAULT_IMPORTANCE = "xit_location_service"
-    var ONGOING_NOTIFICATION_ID: Int = 1
-    var CHANEL_ID: String = " "
-    val TAG = "GetCurrentLoac"
+    private val CHANNEL_DEFAULT_IMPORTANCE = "xit_location_service"
+    private var ONGOING_NOTIFICATION_ID: Int = 1
+    private var CHANEL_ID: String = " "
+    private val TAG = "GetCurrentLoac"
+    private val duration = 5000L
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -51,8 +52,11 @@ class GetCurrentLocationService(): Service(){
                         distanceLocation.longitude = AppPrefs.getCurrentLongitude().toDouble()
                         val distance = location.distanceTo(distanceLocation) + AppPrefs.getDistance()
                         AppPrefs.setDistance(distance)
-
+                        AppPrefs.setDuration(duration)
                         AppPrefs.setBearing(location.bearingTo(distanceLocation))
+                    }else{
+                        AppPrefs.setDistance(0F)
+                        AppPrefs.setDuration(0L)
                     }
                     AppPrefs.setCurrentLatitude(location?.latitude as Double)
                     AppPrefs.setCurrentLongitude(location?.longitude as Double)
@@ -98,7 +102,7 @@ class GetCurrentLocationService(): Service(){
 
     fun createLocationRequest(): LocationRequest? {
         val locationRequest = LocationRequest.create()?.apply {
-            interval = 50000
+            interval = duration
             fastestInterval = 5000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
