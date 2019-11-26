@@ -26,5 +26,8 @@
     <string name="driver_reached">DRIVER REACHED</string>
     <string name="dashboard">Dashboard</string>
     <string name="routing_number_ach">Routing Number/Ach</string>
+    <string name="begin_journey">Begin Journey</string>
+    <string name="close">Close</string>
+    <string name="complete_journey">Complete Journey</string>
 
 </resources>

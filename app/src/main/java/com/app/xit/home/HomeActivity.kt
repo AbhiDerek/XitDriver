@@ -296,7 +296,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         AppPrefs.setBookingId("")
     }
 
-    fun replaceFragment(fragment: Fragment){
+    public fun replaceFragment(fragment: Fragment){
         val findFragment = supportFragmentManager.findFragmentByTag(fragment.javaClass.name)
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 
@@ -391,18 +391,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ex.printStackTrace()
             }
 
-           /* if(!(isBooking as Boolean)) {
-                var status = 2
-                if(isBooking as Boolean) {
-                    status = 2
-                }else{
-                    status =  3
-                }
-                driverBookingRespose(status)
-            }
-            else if(isBooking as Boolean){
-                onNewIntent(intent)
-            }*/
         }
     }
 
@@ -420,7 +408,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             location = addressList.get(0)
 //            return location
         }catch (ex: java.lang.Exception){
-
+            ex.printStackTrace()
         }
         return location
     }
@@ -463,9 +451,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         homeFragment.arguments = bundle
                         AppPrefs.setBookingId(bookingId)
 
-                        replaceFragment(homeFragment)
-                    } else if(bookingStatus == 1){
+                        AppPrefs.setBookingStatus(HomeFragment.JOURNEY_STARTED)
 
+                        replaceFragment(homeFragment)
+                    } else if(bookingStatus == 5){
+                        replaceFragment(PaymentFragment())
                     }
 
                 }

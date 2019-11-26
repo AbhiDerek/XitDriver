@@ -48,7 +48,7 @@ object AppPrefs {
     }
 
     fun setDistance(distance: Float){
-        if(distance == 0f){
+        if(distance == 0.0f){
             sharedPreferences.edit().putFloat(getBookingId() + "_distance", 0.0f).apply()
         }else {
             val calculateDistance = distance + getDistance()

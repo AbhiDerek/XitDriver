@@ -50,13 +50,17 @@ class GetCurrentLocationService(): Service(){
                         val distanceLocation = Location("DistanceLocation")
                         distanceLocation.latitude = AppPrefs.getCurrentLatitude().toDouble()
                         distanceLocation.longitude = AppPrefs.getCurrentLongitude().toDouble()
-                        val distance = location.distanceTo(distanceLocation) + AppPrefs.getDistance()
-                        AppPrefs.setDistance(distance)
+                        if(!AppPrefs.getDistance().isInfinite()) {
+                            val distance = location.distanceTo(distanceLocation) + AppPrefs.getDistance()
+                            AppPrefs.setDistance(distance)
+                        }else{
+                            AppPrefs.setDistance(0.0f)
+                        }
                         AppPrefs.setDuration(duration)
                         AppPrefs.setBearing(location.bearingTo(distanceLocation))
                     }else{
-                        AppPrefs.setDistance(0F)
-                        AppPrefs.setDuration(0L)
+//                        AppPrefs.setDistance(0F)
+//                        AppPrefs.setDuration(0L)
                     }
                     AppPrefs.setCurrentLatitude(location?.latitude as Double)
                     AppPrefs.setCurrentLongitude(location?.longitude as Double)

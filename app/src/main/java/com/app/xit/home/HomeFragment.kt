@@ -74,7 +74,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         val JOURNEY_STARTED = "Journey_Started"
         val DRIVER_REACHED = "Driver_Reached"
         val JOURNEY_COMPLETE = "Journey_Complete"
-        val BOOKING_COMPLETE = "Booking_Complete"
+        val BEGIN_JOURNEY = "Begin_Journey"
     }
 
     override fun onAttach(context: Context?) {
@@ -148,13 +148,15 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             layout_booking_address.visibility = View.VISIBLE
             btn_status_change.visibility = View.VISIBLE
             tvWaiting.visibility = View.GONE
-            AppPrefs.setBookingStatus(DRIVER_REACHED)
 
             routeUrl = getURL(
                 LatLng(AppPrefs.getCurrentLatitude().toDouble(), AppPrefs.getCurrentLongitude().toDouble()),
                 LatLng(pickLat.toString().toDouble(), pickLong.toString().toDouble()))
             Log.i(TAG, "Route Url : $routeUrl")
-            getRoute(routeUrl)
+//            getRoute(routeUrl)
+            if(::handler.isInitialized) {
+                handler.post(runnable)
+            }
 
         }else{
             layout_booking_address.visibility = View.GONE
@@ -168,6 +170,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }catch (ex: Exception){
             ex.printStackTrace()
         }
+    }
+
+    override fun onStop(){
+        super.onStop()
+        handler.removeCallbacks(runnable)
     }
 
     override fun onMapReady(map: GoogleMap?) {
@@ -257,7 +264,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 super.success(t)
 //                Log.i(TAG, "ROUTE DATA : $t")
 //                setPolyline()
-
                 var gson = Gson()
                 var pointsList = arrayListOf<String?>()
                 var routeModel = gson.fromJson(t, RouteData::class.java)
@@ -289,10 +295,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     options.add(it)
                 }
                 handler = android.os.Handler()
-                if(TextUtils.isEmpty(AppPrefs.getDropLatitude()) || TextUtils.isEmpty(AppPrefs.getDropLongitude())){
-                    handler.removeCallbacks(runnable)
-                    return
-                }
+//                if(TextUtils.isEmpty(AppPrefs.getDropLatitude()) || TextUtils.isEmpty(AppPrefs.getDropLongitude())){
+//                    handler.removeCallbacks(runnable)
+//                    return
+//                }
                 options.add(LatLng(AppPrefs.getDropLatitude().toDouble(), AppPrefs.getDropLongitude().toDouble()))
 
                 if(::googleMap.isInitialized){
@@ -325,54 +331,58 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                                     .title("Drop Location"))
 
 //                    }
-                    handler.removeCallbacks(runnable)
-                    handler.postDelayed(runnable, 2 * 1000)
                 }
+
+                handler.removeCallbacks(runnable)
+                handler.postDelayed(runnable, 1 * 500)
             }
 
             override fun error(e: Exception) {
                 super.error(e)
                 Log.i(TAG, "ROUTE DATA : $e")
+                handler.removeCallbacks(runnable)
+                handler.postDelayed(runnable, 1 * 500)
             }
         })
     }
 
     private fun driverBookingStatusChange(){
         val bookingStatus = AppPrefs.getBookingStatus()
+        Log.i(TAG, "Booking Status : $bookingStatus")
         when(bookingStatus){
-            "Journey_Started" -> {
-                AppPrefs.setBookingStatus(JOURNEY_COMPLETE)
+            JOURNEY_STARTED -> {
+                AppPrefs.setBookingStatus(DRIVER_REACHED)
                 (requireActivity() as HomeActivity).driverBookingRespose(4)
                 layout_booking_address.visibility = View.GONE
-                tvWaiting.visibility = View.VISIBLE
+                tvWaiting.visibility = View.GONE
                 btn_status_change.text = requireActivity().getString(R.string.driver_reached)
-                btn_status_change.visibility = View.GONE
-                AppPrefs.setBookingId("")
-                AppPrefs.setDropAdress("")
-                AppPrefs.setPickupAdress("")
-                AppPrefs.setDropLatitude("")
-                AppPrefs.setDropLongitude("")
-                AppPrefs.setPickupLatitude("")
-                AppPrefs.setPickupLongitude("")
-                googleMap.clear()
-                handler.removeCallbacks(runnable)
+                btn_status_change.visibility = View.VISIBLE
+
                 setCurrentLocation()
             }
-            "Driver_Reached" -> {
-                AppPrefs.setBookingStatus(JOURNEY_STARTED)
+            DRIVER_REACHED -> {
+                AppPrefs.setBookingStatus(BEGIN_JOURNEY)
+                btn_status_change.text = requireActivity().getString(R.string.begin_journey)
+            }
+            BEGIN_JOURNEY -> {
                 handler = Handler()
                 handler.post(runnable)
+                tvWaiting.visibility = View.GONE
+                AppPrefs.setBookingStatus(JOURNEY_COMPLETE)
+                btn_status_change.text = requireActivity().getString(R.string.complete_journey)
+            }
+            JOURNEY_COMPLETE -> {
                 tvAddressHeader.text = "DROP ADDRESS:"
                 tvAddress.text = dropAddress
                 btn_status_change.text = "JOURNEY COMPLETE"
-            }
-            "Journey_Complete" -> {
-                AppPrefs.setBookingStatus(JOURNEY_COMPLETE)
-                (requireActivity() as HomeActivity).driverBookingRespose(1)
-            }
-            "Booking_Complete" -> {
+                btn_status_change.visibility = View.GONE
 
+                (requireActivity() as HomeActivity).driverBookingRespose(5)
+
+                googleMap.clear()
+                handler.removeCallbacks(runnable)
             }
+
         }
 
     }
