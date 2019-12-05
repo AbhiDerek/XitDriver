@@ -45,30 +45,30 @@ class ProfileFragment : Fragment(){
         val TAG = "ProfileFragment"
     }
 
-    lateinit var etFullName : EditText
-    lateinit var etFullAddress: EditText
-    lateinit var etPhone: EditText
-    lateinit var etEmail: EditText
-    lateinit var etDrivingLicense: EditText
-    lateinit var etvehicleMark: EditText
-    lateinit var etVehileModel: EditText
-    lateinit var etInsuranceNos: EditText
+    private lateinit var etFullName : EditText
+    private lateinit var etFullAddress: EditText
+    private lateinit var etPhone: EditText
+    private lateinit var etEmail: EditText
+    private lateinit var etDrivingLicense: EditText
+    private lateinit var etvehicleMark: EditText
+    private lateinit var etVehileModel: EditText
+    private lateinit var etInsuranceNos: EditText
 
-    lateinit var tv_driver_profile: TextView
-    lateinit var tv_vehicle_information: TextView
+    private lateinit var tv_driver_profile: TextView
+    private lateinit var tv_vehicle_information: TextView
 
-    lateinit var imgDriver: ImageView
+    private lateinit var imgDriver: ImageView
 //    lateinit var imgSocialSecurityCard: ImageView
-    lateinit var imgDrivingLicense: ImageView
-    lateinit var imgVehicleRegister: ImageView
-    lateinit var imgVehicleLicensePlate: ImageView
-    lateinit var imgVehicleInsuranceCard: ImageView
-    lateinit var linearVehicle: LinearLayout
-    lateinit var linearPersonal: LinearLayout
+    private lateinit var imgDrivingLicense: ImageView
+    private lateinit var imgVehicleRegister: ImageView
+    private lateinit var imgVehicleLicensePlate: ImageView
+    private lateinit var imgVehicleInsuranceCard: ImageView
+    private lateinit var linearVehicle: LinearLayout
+    private lateinit var linearPersonal: LinearLayout
 
-    lateinit var progressBar: ProgressBar
+    private lateinit var progressBar: ProgressBar
 
-    lateinit var btnNext: Button
+    private lateinit var btnNext: Button
 
     lateinit var fullName: String
     lateinit var fullAddress: String
