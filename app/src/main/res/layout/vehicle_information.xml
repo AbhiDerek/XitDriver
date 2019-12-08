@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/padding_5dp"
     android:background="@color/white">
 
     <LinearLayout
@@ -112,7 +113,7 @@
             android:textColor="@color/black"/>
 
         <ImageView
-            android:id="@+id/tv_vehicle_registration"
+            android:id="@+id/img_vehicle_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_5dp"
@@ -136,7 +137,7 @@
             android:textColor="@color/black"/>
 
         <ImageView
-            android:id="@+id/tv_vehicle_lic_plate"
+            android:id="@+id/img_vehicle_lic_plate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_5dp"

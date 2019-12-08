@@ -53,6 +53,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var receiver: MyReceiver
     var isBooking : Boolean? = false
     var acceptFlag : Boolean? = false
+    var IS_PROFILE : Boolean? = false
     var bookingId : String? = null
 
     var pickLatitude : Double = 0.0
@@ -61,6 +62,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var dropLongitude : Double = 0.0
     var pickAddress: String? = null
     var dropAddress: String? = null
+
+    private lateinit var menuItemEdit: MenuItem
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -191,7 +194,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.home, menu)
+        menuInflater.inflate(R.menu.home, menu)
+        menuItemEdit = menu.findItem(R.id.action_edit);
+        menuItemEdit.setVisible(false)
         return true
     }
 
@@ -200,7 +205,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> {
+            R.id.action_edit -> {
+                menuItemEdit.setVisible(false)
+                var fragment = ProfileFragment()
+                var bundle = Bundle()
+                bundle.putBoolean("IS_PROFILE", IS_PROFILE!!)
+                fragment.arguments = bundle
+                replaceFragment(fragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -208,23 +219,28 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onPageChange(pageName: String) {
+        menuItemEdit.setVisible(false)
         when(pageName){
             AppConstants.homePage ->{
                 replaceFragment(HomeFragment())
                 supportActionBar?.setTitle("Home")
             }
             AppConstants.profilePage ->{
+                menuItemEdit.setVisible(true)
                 supportActionBar?.setTitle("Profile")
-                var fragment = ProfileFragment()
+                var fragment = NewProfileFragment()
                 var bundle = Bundle()
+                IS_PROFILE = true
                 bundle.putBoolean("IS_PROFILE", true)
                 fragment.arguments = bundle
                 replaceFragment(fragment)
             }
             AppConstants.vehicleInformationPage -> {
+                menuItemEdit.setVisible(true)
                 supportActionBar?.setTitle("Vehicle Information")
-                var fragment = ProfileFragment()
+                var fragment = NewProfileFragment()
                 var bundle = Bundle()
+                IS_PROFILE = false
                 bundle.putBoolean("IS_PROFILE", false)
                 fragment.arguments = bundle
                 replaceFragment(fragment)
@@ -242,6 +258,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
+        menuItemEdit.setVisible(false)
         when (item.itemId) {
             R.id.nav_home -> {
                 replaceFragment(HomeFragment())

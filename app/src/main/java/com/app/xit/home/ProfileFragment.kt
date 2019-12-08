@@ -142,33 +142,34 @@ class ProfileFragment : Fragment(){
             updateUserProfile()
         }
 
-        setEditable(false)
+        setEditable(true)
+        btnNext.visibility = View.VISIBLE
 
-        tv_driver_profile.setOnTouchListener(object : View.OnTouchListener{
-            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
-                if(event?.action == MotionEvent.ACTION_DOWN){
-                    if(event.getRawX() >= tv_driver_profile.right - tv_driver_profile.totalPaddingRight){
-                        setEditable(true)
-                        btnNext.visibility = View.VISIBLE
-                    }
-                }
-                return false
-            }
+//        tv_driver_profile.setOnTouchListener(object : View.OnTouchListener{
+//            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+//                if(event?.action == MotionEvent.ACTION_DOWN){
+//                    if(event.getRawX() >= tv_driver_profile.right - tv_driver_profile.totalPaddingRight){
+//                        setEditable(true)
+//                        btnNext.visibility = View.VISIBLE
+//                    }
+//                }
+//                return false
+//            }
+//
+//        })
 
-        })
-
-        tv_vehicle_information.setOnTouchListener(object : View.OnTouchListener{
-            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
-                if(event?.action == MotionEvent.ACTION_DOWN){
-                    if(event.getRawX() >= tv_driver_profile.right - tv_driver_profile.totalPaddingRight){
-                        setEditable(true)
-                        btnNext.visibility = View.VISIBLE
-                    }
-                }
-                return false
-            }
-
-        })
+//        tv_vehicle_information.setOnTouchListener(object : View.OnTouchListener{
+//            override fun onTouch(view: View?, event: MotionEvent?): Boolean {
+//                if(event?.action == MotionEvent.ACTION_DOWN){
+//                    if(event.getRawX() >= tv_driver_profile.right - tv_driver_profile.totalPaddingRight){
+//                        setEditable(true)
+//                        btnNext.visibility = View.VISIBLE
+//                    }
+//                }
+//                return false
+//            }
+//
+//        })
 
         return view
     }

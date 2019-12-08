@@ -28,6 +28,7 @@
                             android:gravity="center_vertical|right"
                             android:drawablePadding="@dimen/padding_5dp"
                             android:drawableRight="@drawable/ic_edit"
+                            android:visibility="gone"
                             android:id="@+id/tv_driver_profile"/>
 
             <ImageView
@@ -214,6 +215,7 @@
                   android:layout_gravity="right"
                   android:gravity="center_vertical|right"
                   android:drawablePadding="@dimen/padding_5dp"
+                  android:visibility="gone"
                   android:drawableRight="@drawable/ic_edit"/>
 
                 <LinearLayout android:layout_width="match_parent"
