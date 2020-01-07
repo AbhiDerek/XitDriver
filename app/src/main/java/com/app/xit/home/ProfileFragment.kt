@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -46,7 +47,11 @@ class ProfileFragment : Fragment(){
     }
 
     private lateinit var etFullName : EditText
-    private lateinit var etFullAddress: EditText
+    private lateinit var etCity: EditText
+    private lateinit var etState: EditText
+    private lateinit var etStreet: EditText
+    private lateinit var etStreetNo: EditText
+    private lateinit var etZipCode: EditText
     private lateinit var etPhone: EditText
     private lateinit var etEmail: EditText
     private lateinit var etDrivingLicense: EditText
@@ -71,7 +76,11 @@ class ProfileFragment : Fragment(){
     private lateinit var btnNext: Button
 
     lateinit var fullName: String
-    lateinit var fullAddress: String
+    lateinit var city: String
+    lateinit var state: String
+    lateinit var streetNo: String
+    lateinit var streetName: String
+    lateinit var zipCode: String
     lateinit var phone: String
     lateinit var email: String
     lateinit var licenseNos: String
@@ -109,7 +118,11 @@ class ProfileFragment : Fragment(){
         val view = inflater.inflate(R.layout.activity_profile, null)
 
         etFullName = view.findViewById(R.id.etFullName)
-        etFullAddress = view.findViewById(R.id.etFullAddress)
+        etCity = view.findViewById(R.id.etCity)
+        etState = view.findViewById(R.id.etState)
+        etStreetNo = view.findViewById(R.id.etStreetNo)
+        etStreet = view.findViewById(R.id.etStreetName)
+        etZipCode= view.findViewById(R.id.etZipCode)
         etPhone = view.findViewById(R.id.etPhone)
         etEmail = view.findViewById(R.id.etEmail)
         etDrivingLicense = view.findViewById(R.id.etDrivingLicense)
@@ -182,7 +195,11 @@ class ProfileFragment : Fragment(){
 
     fun setEditable(boolean: Boolean){
         etFullName.isEnabled = boolean
-        etFullAddress.isEnabled = boolean
+        etCity.isEnabled = boolean
+        etState.isEnabled = boolean
+        etStreet.isEnabled = boolean
+        etStreetNo.isEnabled = boolean
+        etZipCode.isEnabled = boolean
         etPhone.isEnabled = boolean
         etEmail.isEnabled = boolean
         etDrivingLicense.isEnabled = boolean
@@ -257,7 +274,11 @@ class ProfileFragment : Fragment(){
     fun setData(){
         val data = AppConstants.driverDetailModel
         etFullName.setText(data.name)
-        etFullAddress.setText(data.street_no +" "+ data.street_name + " "+ data.city)
+        etCity.setText(data.city)
+        etState.setText(data.state)
+        etStreetNo.setText(data.street_no)
+        etStreet.setText(data.street_name)
+        etZipCode.setText(data.zipcode)
         etPhone.setText(data.mobile_no)
         etEmail.setText(data.email)
         etDrivingLicense.setText(data.dl_no)
@@ -418,8 +439,14 @@ class ProfileFragment : Fragment(){
 
 
     fun updateUserProfile(){
+        val data = AppConstants.driverDetailModel
+
         fullName = etFullName.text.toString()
-        fullAddress = etFullAddress.text.toString()
+        city = etCity.text.toString()
+        state = etState.text.toString()
+        streetName = etStreet.text.toString()
+        streetNo = etStreetNo.text.toString()
+        zipCode = etZipCode.text.toString()
         email = etEmail.text.toString()
         licenseNos = etDrivingLicense.text.toString()
         phone = etPhone.text.toString()
@@ -428,14 +455,38 @@ class ProfileFragment : Fragment(){
         insuranceNos = etInsuranceNos.text.toString()
 
         var map = JSONObject()
-        map.put("name", fullName)
-        map.put("mobile_no", phone)
-//        map.put("unit_no", fullAddress)
-//        map.put("street_no", fullAddress)
-//        map.put("street_name", fullAddress)
-//        map.put("city", fullAddress)
-//        map.put("state", fullAddress)
-//        map.put("zipcode", fullAddress)
+        if(!TextUtils.isEmpty(fullName))
+            map.put("name", fullName)
+        else
+            map.put("name", data.name)
+
+        if(!TextUtils.isEmpty(phone))
+            map.put("mobile_no", phone)
+        else
+            map.put("mobile_no", data.mobile_no)
+        if(!TextUtils.isEmpty(city))
+            map.put("city", city)
+        else
+            map.put("city", data.city)
+
+        if(!TextUtils.isEmpty(streetNo))
+            map.put("street_no", streetNo)
+        else
+            map.put("street_no", data.street_no)
+
+        if(!TextUtils.isEmpty(streetName))
+            map.put("street_name", streetName)
+        else
+            map.put("street_name", data.street_name)
+
+        if(!TextUtils.isEmpty(state))
+            map.put("state", state)
+        else
+            map.put("state", data.state)
+
+        if(!TextUtils.isEmpty(zipCode))
+            map.put("zipcode", zipCode)
+        
         map.put("vehicle_make", vehicleMark)
         map.put("vehicle_model", vehicleModel)
         map.put("driving_license", licenseNos)

@@ -19,6 +19,7 @@ object AppConstants{
     val driverProfileUpdate= baseUrl+"driver_details_update.php"
     val driverProfilePicUpdate= baseUrl+"driver_photo_update.php"
     val paymentDetail= baseUrl+"driver_payment_details.php"
+    val amountDetails = baseUrl + "driver_amount_return.php"
     val driverProfile = baseUrl+"driver_dashboard.php"
     val driverRegisteration = baseUrl+"individual_registration.php"
     val driverLogin = baseUrl+"driver_login.php"

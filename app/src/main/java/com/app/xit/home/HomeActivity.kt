@@ -1,10 +1,7 @@
 package com.app.xit.home
 
 import android.Manifest
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -18,6 +15,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -64,6 +62,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var dropAddress: String? = null
 
     private lateinit var menuItemEdit: MenuItem
+    private lateinit var menuItemWallet: MenuItem
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -196,6 +195,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.home, menu)
         menuItemEdit = menu.findItem(R.id.action_edit);
+        menuItemWallet = menu.findItem(R.id.action_wallet);
+        menuItemWallet.setVisible(false)
         menuItemEdit.setVisible(false)
         return true
     }
@@ -214,12 +215,19 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 replaceFragment(fragment)
                 true
             }
+            R.id.action_wallet -> {
+//                menuItemWallet.setVisible(false)
+//                replaceFragment(PaymentFragment())
+                getWalletDetail()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     override fun onPageChange(pageName: String) {
         menuItemEdit.setVisible(false)
+        menuItemWallet.setVisible(false)
         when(pageName){
             AppConstants.homePage ->{
                 replaceFragment(HomeFragment())
@@ -259,6 +267,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         menuItemEdit.setVisible(false)
+        menuItemWallet.setVisible(false)
         when (item.itemId) {
             R.id.nav_home -> {
                 replaceFragment(HomeFragment())
@@ -266,6 +275,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_dashboard -> {
                 supportActionBar?.setTitle("Dashboard")
+                menuItemWallet.setVisible(true)
                 replaceFragment(Dashboard())
             }
             R.id.nav_logout -> {
@@ -303,6 +313,41 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val dialog = builder.create()
         dialog.setCancelable(false)
         dialog.show()
+    }
+
+    fun getWalletDetail(){
+        var map = JSONObject()
+        map.put("drid", AppPrefs.getDriverId())
+
+        progressBar.visibility = View.VISIBLE
+
+        HitApi.hitPostJsonRequest(this, AppConstants.amountDetails, map, object : ServerResponse {
+            override fun success(data: String) {
+                super.success(data)
+
+                progressBar.visibility = View.GONE
+                Log.i(TAG, "Driver Booking Response : $data")
+
+                val success = JSONObject(data).optString("success")
+                if(success.equals("1")) {
+                    val dataAmt = JSONObject(data).optString("data")
+                    AlertDialog.Builder(this@HomeActivity).setTitle("Payment").setMessage("Amount : $dataAmt")
+                        .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener{
+                                dialog, which -> dialog.dismiss()
+                        }).show()
+                }
+
+            }
+
+            override fun error(e: Exception) {
+                super.error(e)
+                progressBar.visibility = View.GONE
+                Log.e(ProfileFragment.TAG, "ERROR: $e")
+                Handler().postDelayed(runnable, 1 * 1000)
+            }
+
+        })
+
     }
 
     fun changeScreen(){}

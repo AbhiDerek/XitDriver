@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
 
     <FrameLayout android:layout_width="match_parent"
                  android:layout_height="match_parent">
@@ -31,14 +31,30 @@
                             android:visibility="gone"
                             android:id="@+id/tv_driver_profile"/>
 
-            <ImageView
-                android:id="@+id/img_driver"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+            <FrameLayout
+                android:layout_width="135dp"
+                android:layout_height="135dp"
                 android:layout_margin="@dimen/padding_25dp"
-                android:layout_gravity="center_horizontal"
-                android:scaleType="center"
-                android:src="@drawable/driver"/>
+                android:layout_gravity="center_horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/img_driver"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/driver"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="#FF000000"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_menu_camera"
+                    android:layout_margin="@dimen/padding_10dp"
+                    android:layout_gravity="end|bottom|right"/>
+
+            </FrameLayout>
+
 
                     <LinearLayout android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
@@ -71,7 +87,7 @@
 
                         <TextView android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
-                                  android:text="Full Address"
+                                  android:text="Street Name"
                                   android:textColor="@color/colorPrimary"
                                   android:textStyle="bold"
                                   android:layout_weight="0.7"/>
@@ -81,9 +97,98 @@
                                   android:layout_weight="0.3"
                                   android:textColor="@color/text_color"
                                   android:background="@android:drawable/editbox_background_normal"
-                                  android:id="@+id/etFullAddress"/>
+                                  android:id="@+id/etStreetName"/>
 
                     </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="@dimen/padding_5dp"
+                    android:weightSum="1">
+
+                    <TextView android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Street No."
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:layout_weight="0.7"/>
+
+                    <EditText android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:textColor="@color/text_color"
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:id="@+id/etStreetNo"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="@dimen/padding_5dp"
+                    android:weightSum="1">
+
+                    <TextView android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="City"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:layout_weight="0.7"/>
+
+                    <EditText android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:textColor="@color/text_color"
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:id="@+id/etCity"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="@dimen/padding_5dp"
+                    android:weightSum="1">
+
+                    <TextView android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="State"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:layout_weight="0.7"/>
+
+                    <EditText android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:textColor="@color/text_color"
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:id="@+id/etState"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="@dimen/padding_5dp"
+                    android:weightSum="1">
+
+                    <TextView android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Zip Code"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:layout_weight="0.7"/>
+
+                    <EditText android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:textColor="@color/text_color"
+                        android:background="@android:drawable/editbox_background_normal"
+                        android:id="@+id/etZipCode"/>
+
+                </LinearLayout>
 
                     <LinearLayout android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
