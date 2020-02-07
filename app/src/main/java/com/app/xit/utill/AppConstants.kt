@@ -23,6 +23,10 @@ object AppConstants{
     val driverProfile = baseUrl+"driver_dashboard.php"
     val driverRegisteration = baseUrl+"individual_registration.php"
     val driverLogin = baseUrl+"driver_login.php"
+    val proofApi = baseUrl+"proof_delivery.php"
+    val updateBankDetail = baseUrl+"driver_bankInfo_update.php"
+    val reachToPickup = baseUrl+"picked_reach_response.php"
+    val beginToDrop = baseUrl+"picked_response.php"
 
     val homePage = "Home Page"
     val profilePage = "Profile Page"

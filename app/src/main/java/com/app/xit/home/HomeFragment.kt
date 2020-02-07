@@ -1,9 +1,14 @@
 package com.app.xit.home
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
@@ -13,11 +18,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.app.xit.AppPrefs
 import com.app.xit.R
 import com.app.xit.ServerResponse
+import com.app.xit.home.HomeActivity.Companion.REQUEST_SCAN
 import com.app.xit.location.Polyline
 import com.app.xit.location.RouteData
 import com.app.xit.location.Steps
@@ -34,9 +41,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.fragment_home_map.view.*
 import org.json.JSONObject
 import org.w3c.dom.Text
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
@@ -55,6 +65,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     lateinit var tvWaiting: TextView
     lateinit var tvAddressHeader: TextView
     lateinit var tvAddress: TextView
+    lateinit var tvDropAddress: TextView
     lateinit var layout_booking_address: LinearLayout
     lateinit var btn_status_change: Button
 
@@ -93,10 +104,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         layout_booking_address = view.findViewById(R.id.layout_booking_address)
         tvAddressHeader = view.findViewById(R.id.tv_address_header)
         tvAddress = view.findViewById(R.id.tv_address)
+        tvDropAddress= view.findViewById(R.id.tv_drop_address)
+
         tvWaiting = view.findViewById(R.id.tv_waiting)
         btn_status_change = view.btn_status_change
         btn_status_change.setOnClickListener {
             driverBookingStatusChange()
+        }
+
+        tvDropAddress.setOnClickListener {
+            startActivityForResult(Intent(requireActivity(), ScanActivity::class.java), REQUEST_SCAN)
         }
 
         fab = view.findViewById<FloatingActionButton>(R.id.fab)
@@ -219,7 +236,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                                     )
                             )
                                     .title("Current Location")
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.car_marker))
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.car_ic))
                     )
 //                }
                 if (!TextUtils.isEmpty(address)) {
@@ -245,6 +262,37 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_SCAN && resultCode == Activity.RESULT_OK){
+            dropAddress = data?.getStringExtra("ScanResult")
+            val address = getLocationFromAddress(dropAddress!!)
+
+            AppPrefs.setDropLatitude(address.latitude.toString())
+            AppPrefs.setDropLongitude(address.longitude.toString())
+            AppPrefs.setDropAdress(dropAddress)
+
+            dropLat = AppPrefs.getDropLatitude()
+            dropLong = AppPrefs.getDropLongitude()
+
+            if(!TextUtils.isEmpty(dropAddress))
+                tvAddress.text = dropAddress
+        }
+    }
+
+    fun getLocationFromAddress(address: String): Address {
+        val geoCoder = Geocoder(requireContext())
+        var addressList: List<Address>
+        var location: Address = Address(Locale.getDefault())
+        try {
+            addressList = geoCoder.getFromLocationName(address, 5)
+            location = addressList.get(0)
+//            return location
+        }catch (ex: java.lang.Exception){
+            ex.printStackTrace()
+        }
+        return location
+    }
 
     private fun getURL(from : LatLng, to : LatLng) : String {
         val origin = "origin=" + from.latitude + "," + from.longitude
@@ -363,6 +411,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             DRIVER_REACHED -> {
                 AppPrefs.setBookingStatus(BEGIN_JOURNEY)
                 btn_status_change.text = requireActivity().getString(R.string.begin_journey)
+                reachToPickup()
             }
             BEGIN_JOURNEY -> {
                 handler = Handler()
@@ -370,13 +419,16 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 tvWaiting.visibility = View.GONE
                 AppPrefs.setBookingStatus(JOURNEY_COMPLETE)
                 btn_status_change.text = requireActivity().getString(R.string.complete_journey)
+                journeyBeginToDrop()
             }
             JOURNEY_COMPLETE -> {
                 tvAddressHeader.text = "DROP ADDRESS:"
-                tvAddress.text = dropAddress
+                if(!TextUtils.isEmpty(dropAddress))
+                    tvAddress.text = dropAddress
                 btn_status_change.text = "JOURNEY COMPLETE"
                 btn_status_change.visibility = View.GONE
 
+                journeyFinish()
                 (requireActivity() as HomeActivity).driverBookingRespose(5)
 
                 googleMap.clear()
@@ -397,6 +449,117 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             getRoute(routeUrl)
         }
     }
+
+    private fun reachToPickup(){
+        var map = JSONObject()
+        map.put("driver_id", AppPrefs.getDriverId())
+        map.put("order_status", AppPrefs.getBookingId())
+        map.put("id1", AppPrefs.getId1())
+        map.put("status", AppPrefs.getBookingStatus())
+
+        (requireActivity() as HomeActivity).progressBarVisibility(View.VISIBLE)
+
+        HitApi.hitPostJsonRequest(requireContext(), AppConstants.reachToPickup, map, object : ServerResponse {
+            override fun success(data: String) {
+                super.success(data)
+
+                (requireActivity() as HomeActivity).progressBarVisibility(View.GONE)
+                Log.i(HomeActivity.TAG, "Driver Booking Response : $data")
+
+                val success = JSONObject(data).optString("success")
+                if(success.equals("1")) {
+//                    val dataAmt = JSONObject(data).optString("data")
+//                    AlertDialog.Builder(requireContext()).setTitle("Payment").setMessage("Amount : $dataAmt")
+//                        .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener{
+//                                dialog, which -> dialog.dismiss()
+//                        }).show()
+                }
+
+            }
+
+            override fun error(e: Exception) {
+                super.error(e)
+                (requireActivity() as HomeActivity).progressBarVisibility(View.GONE)
+                Log.e(ProfileFragment.TAG, "ERROR: $e")
+                Handler().postDelayed(runnable, 1 * 1000)
+            }
+
+        })
+    }
+
+    private fun journeyBeginToDrop(){
+        var map = JSONObject()
+        map.put("driver_id", AppPrefs.getDriverId())
+        map.put("order_id", AppPrefs.getBookingId())
+        map.put("id1", AppPrefs.getId1())
+        map.put("status", AppPrefs.getBookingStatus())
+        (requireActivity() as HomeActivity).progressBarVisibility(View.VISIBLE)
+
+        HitApi.hitPostJsonRequest(requireContext(), AppConstants.beginToDrop, map, object : ServerResponse {
+            override fun success(data: String) {
+                super.success(data)
+
+                (requireActivity() as HomeActivity).progressBarVisibility(View.GONE)
+                Log.i(HomeActivity.TAG, "Driver Booking Response : $data")
+
+                val success = JSONObject(data).optString("success")
+                if(success.equals("1")) {
+//                    val dataAmt = JSONObject(data).optString("data")
+//                    AlertDialog.Builder(requireContext()).setTitle("Payment").setMessage("Amount : $dataAmt")
+//                        .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener{
+//                                dialog, which -> dialog.dismiss()
+//                        }).show()
+                }
+
+            }
+
+            override fun error(e: Exception) {
+                super.error(e)
+                (requireActivity() as HomeActivity).progressBarVisibility(View.GONE)
+                Log.e(ProfileFragment.TAG, "ERROR: $e")
+                Handler().postDelayed(runnable, 1 * 1000)
+            }
+
+        })
+    }
+
+
+    private fun journeyFinish(){
+        var map = JSONObject()
+        map.put("driver_id", AppPrefs.getDriverId())
+        map.put("order_id", AppPrefs.getBookingId())
+        map.put("id1", AppPrefs.getId1())
+        map.put("status", AppPrefs.getBookingStatus())
+        (requireActivity() as HomeActivity).progressBarVisibility(View.VISIBLE)
+
+        HitApi.hitPostJsonRequest(requireContext(), AppConstants.proofApi, map, object : ServerResponse {
+            override fun success(data: String) {
+                super.success(data)
+
+                (requireActivity() as HomeActivity).progressBarVisibility(View.GONE)
+                Log.i(HomeActivity.TAG, "Driver Booking Response : $data")
+
+                val success = JSONObject(data).optString("success")
+                if(success.equals("1")) {
+//                    val dataAmt = JSONObject(data).optString("data")
+//                    AlertDialog.Builder(requireContext()).setTitle("Payment").setMessage("Amount : $dataAmt")
+//                        .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener{
+//                                dialog, which -> dialog.dismiss()
+//                        }).show()
+                }
+
+            }
+
+            override fun error(e: Exception) {
+                super.error(e)
+                (requireActivity() as HomeActivity).progressBarVisibility(View.GONE)
+                Log.e(ProfileFragment.TAG, "ERROR: $e")
+                Handler().postDelayed(runnable, 1 * 1000)
+            }
+
+        })
+    }
+
 
     private fun decodePoly(encoded: String): List<LatLng> {
         val poly = ArrayList<LatLng>()

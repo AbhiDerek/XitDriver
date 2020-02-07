@@ -120,8 +120,8 @@
 
             <ImageView
                 android:id="@+id/img_driving_license"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
                 android:scaleType="center"
                 android:layout_margin="@dimen/margin_10"
                 android:layout_gravity="center_horizontal"></ImageView>

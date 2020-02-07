@@ -114,9 +114,9 @@
 
         <ImageView
             android:id="@+id/img_vehicle_registration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/padding_5dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:scaleType="center"
             android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
@@ -138,9 +138,9 @@
 
         <ImageView
             android:id="@+id/img_vehicle_lic_plate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/padding_5dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:scaleType="center"
             android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
@@ -177,9 +177,10 @@
 
     <ImageView
         android:id="@+id/img_vehicle_ins_card"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:padding="@dimen/padding_5dp"
+        android:scaleType="center"
         android:layout_gravity="center_horizontal"/>
 
 

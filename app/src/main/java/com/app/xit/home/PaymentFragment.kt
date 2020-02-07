@@ -58,7 +58,8 @@ class PaymentFragment : Fragment(), View.OnClickListener{
             AppPrefs.setPickupLongitude("")
             AppPrefs.setDistance(0F)
             AppPrefs.setDuration(0L)
-            (requireActivity() as HomeActivity).replaceFragment(HomeFragment())
+            (requireActivity() as HomeActivity).replaceFragment(ProofFragment())
+
         }
     }
 

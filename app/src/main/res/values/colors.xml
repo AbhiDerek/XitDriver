@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#AA0B00</color>
-    <color name="colorPrimaryDark">#741711</color>
-    <color name="colorAccent">#C73449</color>
+    <color name="colorPrimary">#FFEB3B</color>
+    <color name="colorPrimaryDark">#BEAC08</color>
+    <color name="colorAccent">#FFD70B</color>
     <color name="white">#ffffff</color>
     <color name="grey">#F3F3F3</color>
     <color name="grey_transparent">#70F3F3F3</color>
@@ -16,4 +16,5 @@
     <color name="route_color">#0D4210</color>
     <color name="txt_color">#FF5722</color>
     <color name="yellow">#FFEB3B</color>
+    <color name="yellow_txt">#D5C10A</color>
 </resources>

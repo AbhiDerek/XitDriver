@@ -296,7 +296,7 @@ class ProfileFragment : Fragment(){
                     .fitCenter().into(imgSocialSecurityCard)*/
 
             Glide.with(requireActivity())
-                    .load(BuildConfig.base_image_url + data.social_security_card)
+                    .load(BuildConfig.base_image_url + data.dl_photourl)
                     .fitCenter().into(imgDrivingLicense)
 
             Glide.with(requireActivity())

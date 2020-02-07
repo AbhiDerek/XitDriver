@@ -31,5 +31,10 @@
     <string name="close">Close</string>
     <string name="complete_journey">Complete Journey</string>
     <string name="action_wallet">Wallet</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear">Clear</string>
+    <string name="save">Save</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="account_number">Account Number</string>
 
 </resources>

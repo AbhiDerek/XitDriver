@@ -8,6 +8,7 @@ object AppPrefs {
     private lateinit var sharedPreferences: SharedPreferences
     private val loginKey = "is_login"
     private val driverId = "driver_id"
+    private val id1 = "id1"
     private val driverEmail = "driver_email"
     private val latitude = "current_latitude"
     private val longitude = "current_longitude"
@@ -82,6 +83,14 @@ object AppPrefs {
 
     fun setDriverId(id: String){
         sharedPreferences.edit().putString(driverId, id).apply()
+    }
+
+    fun getId1(): String{
+        return sharedPreferences.getString(id1, "") as String
+    }
+
+    fun setid1(id: String){
+        sharedPreferences.edit().putString(id1, id).apply()
     }
 
     fun getDriverEmail(): String{

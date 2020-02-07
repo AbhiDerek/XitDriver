@@ -52,6 +52,20 @@
                       android:textSize="@dimen/text_size_14"
                       android:text="Info city 2, sector 34, Hero Honda Chowk, Gurgaon"/>
 
+
+            <TextView
+                android:id="@+id/tv_drop_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_10"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_14"
+                android:text="Drop Location : "
+                android:gravity="center"
+                android:drawablePadding="@dimen/padding_15dp"
+                android:drawableRight="@drawable/scan_ic"/>
+
+
         </LinearLayout>
 
         <FrameLayout android:layout_width="match_parent"

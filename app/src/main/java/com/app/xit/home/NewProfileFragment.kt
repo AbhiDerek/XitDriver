@@ -43,6 +43,7 @@ class NewProfileFragment : Fragment(){
     private lateinit var imgVehicleImageLicense: ImageView
     private lateinit var tvVehicleInsuranceCard: TextView
     private lateinit var imgVehicleInsuranceCard: ImageView
+    private lateinit var imgDrivingLicense: ImageView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.activity_profile_new, null)
@@ -63,6 +64,7 @@ class NewProfileFragment : Fragment(){
         imgVehicleRegistration = view.findViewById(R.id.img_vehicle_registration)
         imgVehicleImageLicense = view.findViewById(R.id.img_vehicle_lic_plate)
         imgVehicleInsuranceCard = view.findViewById(R.id.img_vehicle_ins_card)
+        imgDrivingLicense = view.findViewById(R.id.img_driving_license)
 
         if(arguments?.getBoolean("IS_PROFILE")!!){
             linearProfile.visibility = View.VISIBLE
@@ -125,6 +127,10 @@ class NewProfileFragment : Fragment(){
         Glide.with(requireActivity())
             .load(BuildConfig.base_image_url + data.user_photo)
             .fitCenter().into(imgDriver)
+
+        Glide.with(requireActivity())
+            .load(BuildConfig.base_image_url + data.dl_photourl)
+            .fitCenter().into(imgDrivingLicense)
 
 
         tvVehicleType.text = data.driver_type

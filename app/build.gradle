@@ -45,6 +45,12 @@ android {
             }
         }
     }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
 }
 
 dependencies {
@@ -78,6 +84,8 @@ dependencies {
 
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    implementation 'me.dm7.barcodescanner:zxing:1.9.13'
 
 }
 

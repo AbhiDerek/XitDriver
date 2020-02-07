@@ -77,11 +77,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/forgot_password"
                     android:textColor="@color/black"
-                    android:background="@color/white"
-                    android:paddingTop="@dimen/padding_5dp"
-                    android:paddingBottom="@dimen/padding_5dp"
-                    android:paddingRight="@dimen/padding_10dp"
-                    android:paddingLeft="@dimen/padding_10dp"
                     android:layout_alignParentRight="true"
                     style="@style/button"
                     android:id="@+id/buttonFotgetPwd"/>

@@ -2,13 +2,20 @@
 <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     <LinearLayout
+            android:id="@+id/layout_banking_detail"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white">
+            android:layout_above="@+id/btnEdit"
+            android:visibility="visible">
 
 
         <LinearLayout
@@ -35,7 +42,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_14"
                         android:textStyle="bold"
-                        android:text="Bank Name"/>
+                        android:text="@string/bank_name"/>
 
 
 
@@ -97,7 +104,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_size_14"
                         android:textStyle="bold"
-                        android:text="Account Number"/>
+                        android:text="@string/account_number"/>
 
 
 
@@ -197,8 +204,132 @@
 
         </LinearLayout>
 
+
     </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/layout_edit_banking_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btnEdit"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_14"
+                    android:textStyle="bold"
+                    android:text="@string/bank_name"/>
+
+
+
+                <EditText
+                    android:id="@+id/et_edit_bank_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_12"
+                    android:text=""/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_14"
+                    android:textStyle="bold"
+                    android:text="@string/account_number"/>
+
+
+
+                <EditText
+                    android:id="@+id/et_edit_account_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_12"
+                    android:text=""/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_14"
+                    android:textStyle="bold"
+                    android:text="@string/routing_number_ach"/>
+
+
+                <EditText
+                    android:id="@+id/et_edit_routing_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_12"
+                    android:text=""/>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnUpdateBankDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                style="@style/button"
+                android:text="Update"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/padding_25dp"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            style="@style/button"
+            android:text="Edit"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/padding_15dp"/>
+
+    </RelativeLayout>
     <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"

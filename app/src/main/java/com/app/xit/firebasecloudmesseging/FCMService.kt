@@ -42,6 +42,8 @@ class FCMService: FirebaseMessagingService(){
         val zip = data2["d_zipcode"].toString()
         val id = data2["id1"].toString()
 
+        AppPrefs.setid1(id)
+
         val passengerName = data2["p_contact_name"].toString()
         val passengerEmail = data2["p_email"].toString()
         val passengerPhone = data2["p_phone"].toString()

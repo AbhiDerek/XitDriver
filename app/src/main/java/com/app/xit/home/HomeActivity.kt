@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -40,6 +41,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     companion object{
         val BROADCAST_ACTION = "com.app.xit.location"
         val TAG = "HomeActivity"
+        val SIGNATURE_REQUEST = 1012
+        val REQUEST_SCAN = 1212
     }
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val MY_PERMISSIONS_REQUEST_LOCATION : Int = 2109
@@ -350,7 +353,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    fun changeScreen(){}
+    public fun progressBarVisibility(visibility: Int){
+        progressBar.visibility = visibility
+    }
+
 
     fun setLogout(){
         AppPrefs.setDriverId("")
@@ -502,7 +508,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //                    AppConstants.driverDetailModel = driverModel
 //                            For rejection bookingStatus == 3
                     if(bookingStatus == 3) {
-                        Handler().postDelayed(runnable, 1 * 1000)
+                        Handler().postDelayed(runnable, 1 * 100)
 
                         val homeFragment = HomeFragment()
                         val bundle = Bundle().apply {
@@ -516,8 +522,23 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         AppPrefs.setBookingStatus(HomeFragment.JOURNEY_STARTED)
 
                         replaceFragment(homeFragment)
+                    } else if(bookingStatus == 2) {
+                        Handler().postDelayed(runnable, 1 * 100)
                     } else if(bookingStatus == 5){
-                        replaceFragment(PaymentFragment())
+                        AppPrefs.setBookingStatus(HomeFragment.JOURNEY_STARTED)
+
+                        AppPrefs.setBookingId("")
+                        AppPrefs.setDropAdress("")
+                        AppPrefs.setPickupAdress("")
+                        AppPrefs.setDropLatitude("")
+                        AppPrefs.setDropLongitude("")
+                        AppPrefs.setPickupLatitude("")
+                        AppPrefs.setPickupLongitude("")
+                        AppPrefs.setDistance(0F)
+                        AppPrefs.setDuration(0L)
+                        replaceFragment(ProofFragment())
+
+//                        replaceFragment(PaymentFragment())
                     }
 
                 }
