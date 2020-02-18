@@ -455,7 +455,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         map.put("driver_id", AppPrefs.getDriverId())
         map.put("order_status", AppPrefs.getBookingId())
         map.put("id1", AppPrefs.getId1())
-        map.put("status", AppPrefs.getBookingStatus())
+//        map.put("status", AppPrefs.getBookingStatus())
+        map.put("status", 8)
 
         (requireActivity() as HomeActivity).progressBarVisibility(View.VISIBLE)
 
@@ -492,7 +493,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         map.put("driver_id", AppPrefs.getDriverId())
         map.put("order_id", AppPrefs.getBookingId())
         map.put("id1", AppPrefs.getId1())
-        map.put("status", AppPrefs.getBookingStatus())
+//        map.put("status", AppPrefs.getBookingStatus())
+        map.put("status", 3)
         (requireActivity() as HomeActivity).progressBarVisibility(View.VISIBLE)
 
         HitApi.hitPostJsonRequest(requireContext(), AppConstants.beginToDrop, map, object : ServerResponse {

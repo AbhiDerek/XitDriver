@@ -1,6 +1,8 @@
 package com.app.xit.home
 
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -10,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -23,8 +26,14 @@ import com.app.xit.utill.HitApi
 import kotlinx.android.synthetic.main.fragment_proof.view.*
 import org.json.JSONObject
 
+import java.util.*
+import android.widget.TimePicker
+import kotlin.math.min
 
-class ProofFragment : Fragment(){
+
+class ProofFragment : Fragment(), DatePickerDialog.OnDateSetListener,
+    TimePickerDialog.OnTimeSetListener {
+
 
     private lateinit var mView: View
     private var imgBase64: String? = null
@@ -48,6 +57,14 @@ class ProofFragment : Fragment(){
         view.btn_submit.setOnClickListener {
             proofSubmit()
         }
+
+        view.et_proof_date.setOnClickListener{
+            showDatePicker()
+        }
+
+        view.et_proof_time.setOnClickListener{
+            showTimePicker()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -61,6 +78,31 @@ class ProofFragment : Fragment(){
             mView.img_signature.setImageBitmap(decodedByte)
 
         }
+    }
+
+
+    private fun showDatePicker(){
+        val calendar = Calendar.getInstance()
+        val yy = calendar.get(Calendar.YEAR)
+        val mm = calendar.get(Calendar.MONTH)
+        val dd = calendar.get(Calendar.DAY_OF_MONTH)
+        DatePickerDialog(requireContext(), this, yy, mm, dd).show()
+    }
+
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        mView.et_proof_date.setText(dayOfMonth.toString() + ":" + month + ":" + year)
+    }
+
+    private fun showTimePicker(){
+        val myCalender = Calendar.getInstance()
+        val hour = myCalender.get(Calendar.HOUR_OF_DAY)
+        val minute = myCalender.get(Calendar.MINUTE)
+
+        TimePickerDialog(requireContext(), this, hour, minute, true).show()
+    }
+
+    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+        mView.et_proof_time.setText(hourOfDay.toString() + ":" + minute)
     }
 
     private fun proofSubmit(){
@@ -105,11 +147,6 @@ class ProofFragment : Fragment(){
                 if(success.equals("1")) {
                     Log.i(PaymentFragment.TAG, "BOOKING COMPLETE RESPONSE : $data")
                     (requireActivity() as HomeActivity).replaceFragment(HomeFragment())
-                    /* val json: JSONObject = JSONObject(data).optJSONObject("data")
-                     var gson = Gson()
-                     val driverModel : DriverModel = gson.fromJson(json.toString(), DriverModel::class.java)
-                     AppConstants.driverDetailModel = driverModel
-                     setData()*/
                 }
 
             }

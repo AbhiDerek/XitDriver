@@ -50,6 +50,7 @@
             <EditText android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
+                android:focusable="false"
                 android:textColor="@color/text_color"
                 android:background="@android:drawable/editbox_background_normal"
                 android:id="@+id/et_proof_date"/>
@@ -73,6 +74,7 @@
             <EditText android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.3"
+                android:focusable="false"
                 android:textColor="@color/text_color"
                 android:background="@android:drawable/editbox_background_normal"
                 android:id="@+id/et_proof_time"/>

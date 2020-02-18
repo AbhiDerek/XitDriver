@@ -77,6 +77,8 @@ class BankDetailFragment : Fragment(){
             btnEdit.visibility = View.GONE
             layoutDetail.visibility = View.GONE
             layoutEdit.visibility = View.VISIBLE
+
+            setEditData()
         }
 
         btnSaveUpdate.setOnClickListener {
@@ -91,6 +93,12 @@ class BankDetailFragment : Fragment(){
         tvAccountNumber.text = AppConstants.driverDetailModel.ac_no
         tvRouting.text = AppConstants.driverDetailModel.routing_no
     }
+
+    fun setEditData(){
+        etBankName.setText(AppConstants.driverDetailModel.bank_name)
+        etAccountNum.setText(AppConstants.driverDetailModel.ac_no)
+        etRouting.setText(AppConstants.driverDetailModel.routing_no)
+        }
 
 
 
