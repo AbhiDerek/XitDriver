@@ -13,7 +13,7 @@ class PassengerRequestReceiver : BroadcastReceiver(){
     override fun onReceive(context: Context?, intent: Intent?) {
         val booking_id =intent?.getStringExtra("booking_id")
         val pickAddress =intent?.getStringExtra("pick_address")
-        val dropAddress =intent?.getStringExtra("drop_address")
+//        val dropAddress =intent?.getStringExtra("drop_address")
         val payMode =intent?.getStringExtra("pay_mode")
         val passengerRequest =intent?.getBooleanExtra("is_passenger_request", false)
 

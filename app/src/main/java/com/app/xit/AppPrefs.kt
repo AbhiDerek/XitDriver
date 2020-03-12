@@ -2,6 +2,7 @@ package com.app.xit
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 
 object AppPrefs {
 
@@ -22,6 +23,7 @@ object AppPrefs {
     private val dropAdress = "drop_address"
     private val bookingStatus = "booking_status"
     private val isJourneyStarted= "journey_started"
+    private val minimumPickupDistance= "minimum_pickup_distance"
 
 
     fun defaultPrefs(context: Context): SharedPreferences{
@@ -176,6 +178,12 @@ object AppPrefs {
     }
     fun getIsJourneyStarted(): String{
         return sharedPreferences.getString(isJourneyStarted , "") as String
+    }
+    fun setMinimumPickupDistance(journeyStarted: Long){
+        sharedPreferences.edit().putLong(minimumPickupDistance, journeyStarted).apply()
+    }
+    fun getMinimumPickupDistance(): Long{
+        return sharedPreferences.getLong(minimumPickupDistance , 250)
     }
 
     fun bookingReset(){

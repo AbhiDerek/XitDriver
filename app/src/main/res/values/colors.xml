@@ -17,4 +17,5 @@
     <color name="txt_color">#FF5722</color>
     <color name="yellow">#FFEB3B</color>
     <color name="yellow_txt">#D5C10A</color>
+    <color name="link_color">#004AB4</color>
 </resources>

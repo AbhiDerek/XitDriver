@@ -31,6 +31,8 @@ import com.app.xit.utill.HitApi
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import kotlinx.android.synthetic.main.app_bar_home.*
 import kotlinx.android.synthetic.main.nav_header_home.*
 import org.json.JSONObject
@@ -97,11 +99,25 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             navView.setNavigationItemSelectedListener(this)
             btnAccept.setOnClickListener {
-                driverBookingRespose(3)
+                driverBookingRespose(2)
             }
 
             btnReject.setOnClickListener {
-                driverBookingRespose(2)
+                driverBookingRespose(3)
+
+                AppPrefs.setBookingStatus(HomeFragment.WAIT_FOR_BOOKING)
+
+                AppPrefs.setBookingId("")
+                AppPrefs.setid1("")
+                AppPrefs.setDropAdress("")
+                AppPrefs.setPickupAdress("")
+                AppPrefs.setDropLatitude("")
+                AppPrefs.setDropLongitude("")
+                AppPrefs.setPickupLatitude("")
+                AppPrefs.setPickupLongitude("")
+                AppPrefs.setDistance(0F)
+                AppPrefs.setDuration(0L)
+
             }
 
             replaceFragment(HomeFragment())
@@ -112,7 +128,30 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             finish()
         }
+        getRemoteConfig()
+    }
 
+    private fun getRemoteConfig(){
+        val remoteConfig = FirebaseRemoteConfig.getInstance()
+        val configSettings = FirebaseRemoteConfigSettings.Builder()
+            .setMinimumFetchIntervalInSeconds(3600)
+            .build()
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        remoteConfig.setDefaultsAsync(R.xml.remote_config)
+
+        remoteConfig.fetchAndActivate()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val updated = task.result
+                    Log.d(TAG, "Config params updated: $updated")
+
+                } else {
+                    Log.d(TAG, "Config Faile: ")
+
+                }
+//                minimumPickupDistance
+                AppPrefs.setMinimumPickupDistance(remoteConfig.getLong("minimum_pickup_distance"))
+            }
     }
 
     fun startLocationService(){
@@ -377,7 +416,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 transaction.commit()
             }else{
                 if(currentFragment.equals("HomeFragment")){
-                    (findFragment as HomeFragment).setFragmentArgument(fragment.arguments)
+                    (findFragment as HomeFragment).setFragmentArgument()
                 }
             }
 
@@ -414,6 +453,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val pLat = intent?.getStringExtra("pick_latitude")
                 val pLong = intent?.getStringExtra("pick_longitude")
                 pickAddress = intent?.getStringExtra("pick_address")
+                if(!TextUtils.isEmpty(pickAddress)){
+                    tv_pick_address.setText(pickAddress)
+                }
                 if(!TextUtils.isEmpty(pLat)) {
                     pickLatitude = pLat?.toDouble() as Double
                 }
@@ -432,7 +474,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 AppPrefs.setPickupAdress(pickAddress)
                 AppPrefs.setBookingId(bookingId)
 
-                val drLat = intent?.getStringExtra("drop_latitude")
+               val drLat = intent?.getStringExtra("drop_latitude")
                 val drLong = intent?.getStringExtra("drop_longitude")
                 dropAddress = intent?.getStringExtra("drop_address")
                 if(!TextUtils.isEmpty(drLat)) {
@@ -451,6 +493,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 AppPrefs.setDropLatitude(dropLatitude.toString())
                 AppPrefs.setDropLongitude(dropLongitude.toString())
                 AppPrefs.setDropAdress(dropAddress)
+
 
                 layoutRequest.visibility = View.VISIBLE
                 Handler().postDelayed(runnable, 45 * 1000)
@@ -490,6 +533,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var map = JSONObject()
         map.put("driver_id", AppPrefs.getDriverId())
         map.put("order_id", AppPrefs.getBookingId())
+        map.put("id1", AppPrefs.getId1())
         map.put("status", bookingStatus.toString())
 
         progressBar.visibility = View.VISIBLE
@@ -509,6 +553,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //                            For rejection bookingStatus == 3
                     if(bookingStatus == 3) {
                         Handler().postDelayed(runnable, 1 * 100)
+                    } else if(bookingStatus == 2) {
+                        Handler().postDelayed(runnable, 1 * 100)
 
                         val homeFragment = HomeFragment()
                         val bundle = Bundle().apply {
@@ -522,20 +568,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         AppPrefs.setBookingStatus(HomeFragment.JOURNEY_STARTED)
 
                         replaceFragment(homeFragment)
-                    } else if(bookingStatus == 2) {
-                        Handler().postDelayed(runnable, 1 * 100)
                     } else if(bookingStatus == 5){
-                        AppPrefs.setBookingStatus(HomeFragment.JOURNEY_STARTED)
-
-                        AppPrefs.setBookingId("")
-                        AppPrefs.setDropAdress("")
-                        AppPrefs.setPickupAdress("")
-                        AppPrefs.setDropLatitude("")
-                        AppPrefs.setDropLongitude("")
-                        AppPrefs.setPickupLatitude("")
-                        AppPrefs.setPickupLongitude("")
-                        AppPrefs.setDistance(0F)
-                        AppPrefs.setDuration(0L)
                         replaceFragment(ProofFragment())
 
 //                        replaceFragment(PaymentFragment())

@@ -34,6 +34,7 @@ public class SignatureDialog extends AppCompatActivity {
     private BeanManager beanManager;
 
     public final static String IMAGE_BASE_64 = "IMAGE_BASE_64";
+    public final static String STORED_PATH = "stored_path";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,6 +106,7 @@ public class SignatureDialog extends AppCompatActivity {
             Log.d("Xit", "imageBase64 : " + imageBase64);
             Intent intent = new Intent();
             intent.putExtra(IMAGE_BASE_64, imageBase64);
+            intent.putExtra(STORED_PATH, StoredPath);
             mActivity.setResult(Activity.RESULT_OK, intent);
             mActivity.finish();
             Toast.makeText(mActivity, "Successfully Saved", Toast.LENGTH_SHORT).show();

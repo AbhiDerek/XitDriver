@@ -21,8 +21,8 @@ android {
     }
     buildTypes {
         release {
-            buildConfigField "String", "base_url", "\"https://www.websitexperts.co/demo/xit/rstapi/\""
-            buildConfigField "String", "base_image_url", "\"https://www.websitexperts.co/demo/xit/\""
+            buildConfigField "String", "base_url", "\"https://www.xitmapp.com/rstapi/\""
+            buildConfigField "String", "base_image_url", "\"http://www.xitmapp.com/rstapi/\""
             buildConfigField "String", "google_key", "\"AIzaSyAMwNEZW4Ws9LJNyw2IYNk6e0b6lKIbXFw\""
 
             buildConfigField "boolean", "IS_DEBUG", "false"
@@ -31,8 +31,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "String", "base_url", "\"https://www.websitexperts.co/demo/xit/rstapi/\""
-            buildConfigField "String", "base_image_url", "\"https://www.websitexperts.co/demo/xit/\""
+            buildConfigField "String", "base_url", "\"http://www.xitmapp.com/rstapi/\""
+            buildConfigField "String", "base_image_url", "\"http://www.xitmapp.com/rstapi/\""
+
+//            buildConfigField "String", "base_url", "\"https://www.websitexperts.co/demo/xit/rstapi/\""
+//            buildConfigField "String", "base_image_url", "\"https://www.websitexperts.co/demo/xit/\""
             buildConfigField "String", "google_key", "\"AIzaSyAMwNEZW4Ws9LJNyw2IYNk6e0b6lKIbXFw\""
 
             buildConfigField "boolean", "IS_DEBUG", "true"
@@ -45,6 +48,14 @@ android {
             }
         }
     }
+
+//    flavorDimensions "version"
+//    productFlavors {
+//
+//        live {
+//            dimension "version"
+//        }
+//    }
 
     compileOptions {
         sourceCompatibility = '1.8'
@@ -65,8 +76,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.google.firebase:firebase-messaging:20.0.1'
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
+
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
@@ -86,6 +98,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     implementation 'me.dm7.barcodescanner:zxing:1.9.13'
+    implementation 'com.google.firebase:firebase-config:19.1.1'
 
 }
 

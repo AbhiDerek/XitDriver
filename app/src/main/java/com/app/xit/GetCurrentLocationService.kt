@@ -107,7 +107,7 @@ class GetCurrentLocationService(): Service(){
     fun createLocationRequest(): LocationRequest? {
         val locationRequest = LocationRequest.create()?.apply {
             interval = duration
-            fastestInterval = 5000
+            fastestInterval = 60000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
         return locationRequest

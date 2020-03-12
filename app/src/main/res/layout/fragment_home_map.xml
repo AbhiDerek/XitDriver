@@ -52,19 +52,75 @@
                       android:textSize="@dimen/text_size_14"
                       android:text="Info city 2, sector 34, Hero Honda Chowk, Gurgaon"/>
 
-
-            <TextView
-                android:id="@+id/tv_drop_address"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linear_dropview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/margin_10"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_14"
-                android:text="Drop Location : "
-                android:gravity="center"
-                android:drawablePadding="@dimen/padding_15dp"
-                android:drawableRight="@drawable/scan_ic"/>
+                android:visibility="gone"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/tv_drop_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/padding_15dp"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_10"
+                    android:text="Drop Location : "
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_14"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/linear_drop_selection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/margin_10"
+                    android:paddingRight="@dimen/margin_10"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:id="@+id/img_scan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
+                        android:src="@drawable/qr_code_ic"
+                        android:layout_weight="0.33"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:text="---OR---"
+                        android:textSize="@dimen/text_size_22"
+                        android:textStyle="bold"
+                        android:layout_weight="0.33"/>
+
+                    <Button
+                        android:id="@+id/btn_getdropaddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Get Address"
+                        android:textAllCaps="false"
+                        android:layout_weight="0.33"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_drop_full_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/margin_10"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_14"
+                    android:visibility="visible" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -114,8 +170,9 @@
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  android:layout_margin="@dimen/padding_10dp"
-                 android:text="@string/driver_reached"
+                 android:text="@string/reach_to_pickup"
                  android:textSize="@dimen/text_size_18"
+                 android:textColor="@color/white"
                  android:visibility="gone"
                  android:background="@color/bg_address"/>
 

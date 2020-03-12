@@ -7,8 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,7 +16,6 @@ import android.widget.Button;
 
 import com.app.xit.utill.AppUtill;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -35,7 +34,7 @@ public class Signature extends View {
     private float lastTouchX;
     private float lastTouchY;
     private Bitmap bitmap;
-
+    FileOutputStream mFileOutStream = null;
 
     public Signature(Context context, AttributeSet attrs, Button getSign) {
         super(context, attrs);
@@ -75,26 +74,35 @@ public class Signature extends View {
             bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.RGB_565);
         }
         Canvas canvas = new Canvas(bitmap);
-        FileOutputStream mFileOutStream = null;
+
         try {
             // Output the file
             mFileOutStream = new FileOutputStream(StoredPath);
             v.draw(canvas);
             // Convert the output file to Image such as .png
-            bitmap.compress(Bitmap.CompressFormat.PNG, 90, mFileOutStream);
+            new Handler().post(new Runnable(){
+                @Override
+                public void run() {
+                    try {
+                         bitmap.compress(Bitmap.CompressFormat.PNG, 90, mFileOutStream);
+                    } catch (Exception e) {
+                        Log.v("log_tag", e.toString());
+                    }
+
+                    try {
+                        if (mFileOutStream != null) {
+                            mFileOutStream.flush();
+                            mFileOutStream.close();
+                        }
+                    } catch (IOException e) {
+                        Log.v("log_tag", e.toString());
+                    }
+                }
+            });
+
 
         } catch (Exception e) {
             Log.v("log_tag", e.toString());
-        } finally {
-            try {
-                if (mFileOutStream != null) {
-                    mFileOutStream.flush();
-                    mFileOutStream.close();
-                }
-            } catch (IOException e) {
-                Log.v("log_tag", e.toString());
-            }
-
         }
     }
 

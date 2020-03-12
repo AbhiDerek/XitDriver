@@ -93,27 +93,28 @@
                 android:text="Signature"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:layout_weight="0.35"/>
+                android:layout_weight="0.60"/>
 
             <Button android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.35"
+                android:layout_weight="0.40"
                 android:textColor="@color/white"
                 android:text="Choose Sign"
                 android:textSize="@dimen/text_size_14"
                 android:background="@drawable/rounded_grey_btn"
                 android:id="@+id/btn_signature"/>
 
-
-            <ImageView android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:textColor="@color/white"
-                android:text="Choose Sign"
-                android:background="@drawable/rounded_grey_btn"
-                android:id="@+id/img_signature"/>
-
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_margin="@dimen/padding_10dp"
+            android:padding="@dimen/padding_5dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerInside"
+            android:visibility="invisible"
+            android:id="@+id/img_signature"/>
 
 
         <Button

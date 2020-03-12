@@ -6,7 +6,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/login_bg">
+        android:background="@color/colorAccent">
 
     <FrameLayout
             android:layout_centerInParent="true"
@@ -21,7 +21,6 @@
                   android:paddingRight="@dimen/padding_10dp"
                   android:paddingTop="@dimen/padding_25dp"
                   android:paddingBottom="@dimen/padding_25dp"
-                  android:background="@color/grey_transparent"
                   android:orientation="vertical">
 
         <ImageView android:layout_width="wrap_content"
@@ -36,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_15"
                 android:id="@+id/textInputLayoutEmail"
-                android:hint="Email"
+                android:hint="Unique Id"
                 android:lines="1"
                 android:padding="@dimen/padding_10dp"
                 android:textColorHint="@color/black"
@@ -44,7 +43,7 @@
                 android:background="@android:drawable/editbox_background_normal"/>
 
 
-        <EditText
+      <!--  <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textInputLayoutPassword"
@@ -55,7 +54,7 @@
                 android:textColorHint="@color/black"
                 android:textColor="@color/black"
                 android:background="@android:drawable/editbox_background_normal"/>
-
+-->
 
         <RelativeLayout
                       android:layout_width="match_parent"
@@ -63,34 +62,47 @@
                       android:layout_marginTop="@dimen/padding_25dp"
                       android:orientation="horizontal">
 
-            <Button android:layout_width="wrap_content"
+            <Button android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/login"
-                    style="@style/button"
+                    android:textColor="@color/white"
+                    android:background="@color/request_reject"
                     android:layout_marginEnd="8dp"
-                    android:layout_alignParentLeft="true"
+                    android:layout_centerHorizontal="true"
                     android:id="@+id/buttonLogin"
                     android:onClick="login"/>
 
-
-            <Button android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/forgot_password"
-                    android:textColor="@color/black"
-                    android:layout_alignParentRight="true"
-                    style="@style/button"
-                    android:id="@+id/buttonFotgetPwd"/>
+<!--            <Button android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/forgot_password"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    style="@style/button"-->
+<!--                    android:id="@+id/buttonFotgetPwd"/>-->
 
         </RelativeLayout>
 
-    <Button android:layout_width="match_parent"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/signup_text"
+            android:textColor="@color/link_color"
+            android:textSize="@dimen/text_size_18"
+            android:layout_marginRight="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/padding_25dp"
+            android:id="@+id/buttonSignup"/>
+
+    <!--<Button android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/button"
             android:text="@string/new_to_xit_sign_up"
             android:layout_marginRight="35dp"
             android:layout_marginLeft="35dp"
             android:layout_marginTop="@dimen/padding_25dp"
-            android:id="@+id/buttonSignup"/>
+            android:id="@+id/buttonSignup"/>-->
 
     </LinearLayout>
 

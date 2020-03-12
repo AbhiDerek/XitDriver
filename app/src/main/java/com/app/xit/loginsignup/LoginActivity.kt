@@ -2,6 +2,7 @@ package com.app.xit.loginsignup
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -26,12 +27,14 @@ class LoginActivity : BaseActivity(){
         super.onCreate(savedInstanceState)
         setLayout(R.layout.activity_login)
 
-        buttonFotgetPwd.setOnClickListener {
-
-        }
+//        buttonFotgetPwd.setOnClickListener {
+//
+//        }
 
         buttonSignup.setOnClickListener {
-            startActivityForResult(Intent(this, SignupActivity::class.java), SIGNUP_REQUEST_CODE)
+//            startActivityForResult(Intent(this, SignupActivity::class.java), SIGNUP_REQUEST_CODE)
+            startActivity(Intent("android.intent.action.VIEW",
+                Uri.parse("http://www.xitmapp.com/become_a_driver.php")))
         }
     }
 
@@ -50,11 +53,13 @@ class LoginActivity : BaseActivity(){
         var email = textInputLayoutEmail.text.toString()
 //        if(validateEmail() && validatePassword()){
 //            var map= mutableMapOf<String, String>()
-        email = "siraj@wserve.com"
+      //  email = "siraj@wserve.com"
         progressBar.visibility = View.VISIBLE
            var map = JSONObject()
-            map.put("email", email)
-            map.put("password", "test123")
+//            map.put("login_id", email)
+            map.put("login_id", "ZEO75200226G10")
+//            map.put("email", email)
+//            map.put("password", "test123")
             if(!TextUtils.isEmpty(AppPrefs.getFcmToken())) {
                 map.put("access_token", AppPrefs.getFcmToken())
             }else {
@@ -96,13 +101,13 @@ class LoginActivity : BaseActivity(){
         return true
     }
 
-    private fun validatePassword(): Boolean{
-        val password = textInputLayoutPassword.text.toString()
-        if(TextUtils.isEmpty(password) || password.length < 4){
-            return false
-        }
-        return true
-    }
+//    private fun validatePassword(): Boolean{
+//        val password = textInputLayoutPassword.text.toString()
+//        if(TextUtils.isEmpty(password) || password.length < 4){
+//            return false
+//        }
+//        return true
+//    }
 
     override fun onBackPressed() {
         super.onBackPressed()

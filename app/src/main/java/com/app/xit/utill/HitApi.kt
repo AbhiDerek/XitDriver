@@ -10,6 +10,9 @@ import com.android.volley.toolbox.StringRequest
 import com.app.xit.BuildConfig
 import com.app.xit.ServerResponse
 import org.json.JSONObject
+import com.android.volley.DefaultRetryPolicy
+
+
 
 object HitApi {
 
@@ -84,8 +87,15 @@ object HitApi {
                 resultResponse.error(error)
             }
         )
-
+        jsonObjectRequest.setRetryPolicy(
+            DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+        )
         queue.add(jsonObjectRequest)
+
 
     }
 
